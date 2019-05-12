@@ -1,0 +1,79 @@
+% Dúvidas do formato Latex?
+% http://www.docs.is.ed.ac.uk/skills/documents/3722/3722-2014.pdf
+
+\documentclass[12pt]{article}
+\usepackage{sbc-rsa}
+\usepackage{graphicx,url}
+\usepackage[brazil]{babel}   
+%\usepackage[latin1]{inputenc}  
+\usepackage[utf8]{inputenc}  
+% UTF-8 encoding is recommended by ShareLaTex
+
+\sloppy
+
+\input{sections/titulo.tex}
+
+\begin{document} 
+\maketitle
+\input{sections/abstract.tex}
+\input{sections/resumo.tex}
+
+
+\section{Introdução}
+
+    \textbf{Sugestão de tópicos}
+    \newline
+    \textit{
+    * [ok] O que é o básico de criptografia \newline
+    * [ok] O por que da criptografia (aumento de computadores, celulares, etc)\newline
+    * [pendente] Tipos de criptografia e descriptografia \newline
+    * O mais utilizado é o RSA e o motivo \newline
+    * [ok] O que será abordado no artigo \newline
+    * [ok] Como está dividido o artigo (tópicos) \newline
+    }
+
+\input{sections/intro.tex}
+
+\section{Criptografia} \label{sec:firstpage}
+
+    \textbf{Sugestão de tópicos}
+    \newline
+    * Descrever em outas palavras a criptografia \newline
+    * Descrever simétrica  \newline
+    * Descrever assimétrica \newline
+    * Descrever chave pública \newline
+    * Desenho de chave pública \newline
+
+\input{sections/criptografia.tex}
+
+\section{Metodologia}
+
+    \textbf{Sugestão de tópicos}
+    \newline
+    Como foi construido o programa de criptografia
+
+\subsection{Números primos grandes}
+
+bla bla bla
+
+\subsection{Algoritmo de Euclides}
+
+bla bla bla
+
+\subsection{Inverso Modular}
+
+bla bla bla
+
+\subsection{Força bruta}
+
+bla bla bla
+
+
+\section{Conclusão}
+
+\input{sections/conclusao.tex}
+
+\bibliographystyle{sbc}
+\bibliography{sbc-rsa}
+
+\end{document}

@@ -1,0 +1,21 @@
+Quando quer converter informações sigilosas em algo sem sentido, você encripta (codifica, criptografa, cifra) os dados. Para convertê-los de volta, você os decripta (decodifica, decriptografa, decifra)
+
+A criptografia converte dados legíveis em algo sem sentido, com a capacidade de recuperar os dados originais a partir desses dados sem sentido. O primeiro tipo de criptografia é chamado de chave simétrica. Nessa abordagem, um algoritmo utiliza uma chave para converter as informações naquilo que se parece com bits aleatórios. Assim, o mesmo algoritmo utiliza a mesma chave para recuperar os dados originais \cite{burnett:02}.
+
+
+
+Um sistema de criptografia de chave pública pode ser usado para codificar mensagens enviadas entre dois participantes de uma comunicação, de forma que um intruso que escute as mensagens codificadas não possa decodificá-las. Um sistema de criptografia de chave pública também permite que um dos participantes acrescente uma "assinatura digital" impossível de forjar ao final de uma mensagem eletrônica. Tal assinatura é a versão eletrônica de uma assinatura manuscrita em um documento de papel. Ela pode ser conferida com facilidade por qualquer pessoa, não pode ser forjada por ningém, e ainda perde sua validade se qualquer bit da mensagem for alterado. Portanto, ela fornece autenticação, tanto da identidade do signatário quanto do conteúdo da mensagem assinada \cite{cormen:02}.
+
+A Infraestrutura de Chaves Públicas do Brasil – ICP-Brasil recomenda o uso do algoritmo RSA como padrão para geração de chaves criptográficas de, no mínimo, 2048 bits \cite{icp:09}.
+
+Cormen (2002) detalha os seguintes procedimentos a seguir:
+\begin{enumerate}
+    \item Selecione dois números primos grandes $p$ e $q$, tais que $p \neq q$;
+    \item Calcule $n$ pela equação $n=p*q$;
+    \item Selecione um inteiro ímpar pequeno e tal que seja primo relativo de  $O(n)$  obtido pela equação $(p-1)(q-1)$;
+    \item Calcule $d$ como o inverso multiplicativo de $e$;
+    \item O par formado por $P = (e,n)$ será a chave pública do RSA  e o par formado por $S = (d,n)$ a chave privada.
+\end{enumerate}
+
+
+A segurança do criptossistema RSA é fortemente vinculada à fatoração de $n$, que pode revelar os valores de $p$ e $q$. Felizmente, visto que esse problema é difícil de solucionar, podemos continuar a confiar na segurança do criptossistema RSA, desde que usemos um módulo suficientemente grande como o de 2048 bits \cite{goodrich:13}.
