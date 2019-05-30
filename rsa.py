@@ -1,3 +1,20 @@
+"""
+References:
+    https://gist.github.com/AJamesPhillips/9570158
+    https://www.youtube.com/watch?v=l9okvhYxtiU
+    https://github.com/jacksjm/rsa-python/blob/master/brutalForce.py
+    https://github.com/sybrenstuvel/python-rsa/blob/master/rsa/prime.py
+    https://github.com/MatthewCLind/Crypto_Practice/blob/master/RSA_keygen.py
+"""
+
+def gcd(a, b):
+    """
+    Greatest common divisor
+    """
+    while b != 0:
+        a, b = b, a % b
+    return a
+
 '''
 Euclid's extended algorithm for finding the multiplicative inverse of two numbers
 '''
