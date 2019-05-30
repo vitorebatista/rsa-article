@@ -14,7 +14,7 @@ class Rsa:
         self.q = 0
 
     @staticmethod
-    def gcd(a: int, b: int):
+    def gcd(a: int, b: int) -> int:
         """
         Greatest common divisor
         """
@@ -22,7 +22,7 @@ class Rsa:
             a, b = b, a % b
         return a
 
-    def generate_prime(self):
+    def generate_prime(self) -> int:
         # números primos são valores inteiros maiores que 1
         # divisíveis apenas por 1 e por si mesmos
         prime_number_limit = 1000
@@ -41,7 +41,7 @@ class Rsa:
 
 
     @staticmethod
-    def is_prime(number: int):
+    def is_prime(number: int) -> int:
         """
         Test to see if a number is prime.
         """
@@ -61,11 +61,11 @@ class Rsa:
     Euclid's extended algorithm for finding the multiplicative inverse of two numbers
     '''
     @staticmethod
-    def multiplicative_inverse(e: int, phi: int):
+    def multiplicative_inverse(e: int, phi: int) -> int:
         return
 
     @staticmethod
-    def generate_keypair(p: int, q: int):
+    def generate_keypair(p: int, q: int) -> None:
         """
         p - prime number
         q - another prime number
@@ -75,7 +75,7 @@ class Rsa:
         return
 
     @staticmethod
-    def encrypt(pk, message: str):
+    def encrypt(pk, message: str)  -> str:
         """
         pk - private key
         message - plain text to cipher
@@ -84,6 +84,6 @@ class Rsa:
         return cipher
 
     @staticmethod
-    def decrypt(pk: int, ciphertext: str):
+    def decrypt(pk: int, ciphertext: str) -> None:
         return
         
