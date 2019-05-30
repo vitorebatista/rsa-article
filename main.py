@@ -73,6 +73,8 @@ p = generate_prime()
 
 n = p * q
 
-
+print("primeiro primo: %d" % p)
+print("segundo primo: %d" % q)
+print("n = %d" % n)
 
     
