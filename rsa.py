@@ -1,3 +1,10 @@
+'''
+Euclid's extended algorithm for finding the multiplicative inverse of two numbers
+'''
+def multiplicative_inverse(e, phi):
+    return
+
+
 def gcd(a, b):
     """
     Greatest common divisor
@@ -6,17 +13,6 @@ def gcd(a, b):
         a, b = b, a % b
     return a
 
-'''
-Euclid's extended algorithm for finding the multiplicative inverse of two numbers
-'''
-def multiplicative_inverse(e, phi):
-    return
-
-def is_prime(number):
-    """
-    Test to see if a number is prime.
-    """
-    return True
 
 def generate_keypair(p, q):
     """
@@ -24,7 +20,10 @@ def generate_keypair(p, q):
     q - another prime number
     """
     # you must use d = multiplicative_inverse(e, phi) and gcd(e, phi)
+
+
     return
+
 
 def encrypt(pk, message):
     """
@@ -33,6 +32,7 @@ def encrypt(pk, message):
     """
     cipher = ''
     return cipher
+
 
 def decrypt(pk, ciphertext):
     return

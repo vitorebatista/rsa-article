@@ -15,3 +15,64 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
     - Uma descrição da complexidade das funções implementadas;
     - Gráficos com os tempos de execução da geração das chaves e dos dois procedimentos de fatoração para inteiros com n-bits.
 """
+
+import rsa
+import random
+
+prime_number_limit = 100
+
+
+
+
+
+
+def generate_prime():
+    # números primos são valores inteiros maiores que 1
+    # divisíveis apenas por 1 e por si mesmos
+
+    # gera número aleatorio entre 2 e prime_number_limit
+    number = random.randint(2,prime_number_limit)
+
+    # se for par, soma 1 para ser ímpar (pares não são primos, exceto 2)
+    if (number % 2) == 0:
+        number += 1
+
+    # enquanto não for primo, soma dois e tenta novamente
+    while not is_prime(number):
+        number += 2
+        
+    return number
+
+
+
+def is_prime(number):
+    """
+    Test to see if a number is prime.
+    """
+
+    is_prime = True 
+
+    # tenta dividir pelos números a partir de 3 até sua metade, andando de 2 em 2
+    for n in range(3, int(number/2)+2, 2):
+        if (number % n) == 0:
+            is_prime = False
+            break
+        
+    return is_prime
+
+
+
+
+
+
+
+
+q = generate_prime()
+p = generate_prime()
+
+
+n = p * q
+
+
+
+    
