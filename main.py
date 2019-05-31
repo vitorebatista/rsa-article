@@ -24,25 +24,15 @@ rsa = Rsa()
 # os primos p e q podem ter, digamos, 512 bits cada um
 
 q = rsa.generate_prime()
-p = rsa.generate_prime()
-
-# garante que sejam números diferentes
-while (p == q):
-    q = rsa.generate_prime()
-
-# 2. calcule n pela equacao n = p*q
-n = p * q
-
-# 3. selecione um inteiro ímpar pequeno 'e' tal que ele seja primo em relacao
-# a phi(n) que, pela equacao é igual a (p-1)*(q-1)
-phi = (p-1)*(q-1)
-e = rsa.generate_prime(phi)
-
-while ( rsa.gcd(e,phi) != 1 ):
-    e = rsa.generate_prime(phi)
-
-
+p = rsa.generate_prime(skip=q)
 
 letra = ord('a')
 print( "ascii %d é %s " % (letra, str(chr(letra)) )  )
+
+k = rsa.generate_keypair(p,q)
+print("p:   %d" % rsa.p)
+print("q    %d" % rsa.q)
+print("e    %d" % rsa.e)
+print("n    %d" % rsa.n)
+print("phi  %d" % rsa.phi)
 

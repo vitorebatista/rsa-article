@@ -10,17 +10,39 @@ import random
 
 prime_number_limit = 1000
 
+# TODO: temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
+
+
+def is_prime(number: int) -> int:
+    """
+    Test to see if a number is prime.
+    """
+
+    is_prime = True
+
+    # tenta dividir pelos números a partir de 3 até sua metade, andando de 2 em 2
+    for n in range(3, int(number/2)+2, 2):
+        if (number % n) == 0:
+            is_prime = False
+            break
+
+    return is_prime
+
+
 class Rsa:
     def __init__(self):
         self.p = 0
         self.q = 0
+        self.e = 0
+        self.n = 0
+        self.phi = 0
 
     @staticmethod
     def gcd(a: int, b: int) -> int:
         """
         Greatest common divisor
         """
-        # o algoritmo de Euclides recebe dois valores para os quais se deseja calcular o 
+        # o algoritmo de Euclides recebe dois valores para os quais se deseja calcular o
         # maximo divisor comum (maior número que é divisível pelos dois valores) e realiza
         # divisoes sucessivas até encontrar o último resto não nulo desse processo
         # ex: a/b = q1 (r1 sendo div)
@@ -28,17 +50,17 @@ class Rsa:
         #     r1/r2 = q3 (r3 sendo mod)
         #     [...] mdc(a,b) = rn
         while (b > 0):
-            q = int(a/b) # calcula o resultado inteiro da divisao
-            r = (a % b) # calcula o resto da divisao
+            q = int(a/b)  # calcula o resultado inteiro da divisao
+            r = (a % b)  # calcula o resto da divisao
             a = b
             b = r
-        
-        #while b != 0:
+
+        # while b != 0:
         #    a, b = b, a % b
-        
+
         return a
 
-    def generate_prime(self,limit: int = prime_number_limit) -> int:
+    def generate_prime(self, limit: int = prime_number_limit, skip: int = 0, ) -> int:
         # números primos são valores inteiros maiores que 1
         # divisíveis apenas por 1 e por si mesmos
 
@@ -46,56 +68,59 @@ class Rsa:
         limit = prime_number_limit if (limit > prime_number_limit) else limit
 
         # gera número aleatorio entre 2 e prime_number_limit
-        number = random.randint(2,limit)
+        number = random.randint(2, limit)
 
         # se for par, soma 1 para ser ímpar (pares não são primos, exceto 2)
         if (number % 2) == 0:
             number += 1
 
         # enquanto não for primo, soma dois e tenta novamente
-        while not self.is_prime(number):
+        while not is_prime(number):
             number += 2
-            
+
+        # garante que p e q sejam números diferentes
+        if (skip == number):
+            print("p é igual, tentando de novo")
+            return self.generate_prime(skip=skip)
+
         return number
-
-
-    @staticmethod
-    def is_prime(number: int) -> int:
-        """
-        Test to see if a number is prime.
-        """
-
-        is_prime = True 
-
-        # tenta dividir pelos números a partir de 3 até sua metade, andando de 2 em 2
-        for n in range(3, int(number/2)+2, 2):
-            if (number % n) == 0:
-                is_prime = False
-                break
-            
-        return is_prime
-        # temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
-
 
     '''
     Euclid's extended algorithm for finding the multiplicative inverse of two numbers
     '''
     @staticmethod
     def multiplicative_inverse(e: int, phi: int) -> int:
-        return
+        return 1
+
+    def generate_keypair(self, p: int, q: int) -> int:
+        """
+        p - número primo
+        q - outro número primo
+        """
+        if not (is_prime(p) and is_prime(q)):
+            raise ValueError('p e q devem ser primos para gerar a chave.')
+        elif p == q:
+            raise ValueError('p e q não podem ser iguais para gerar a chave.')
+
+        # 2. calcule n pela equacao n = p*q
+        n = p * q
+
+        # 3. selecione um inteiro ímpar pequeno 'e' tal que ele seja primo em relacao
+        # a phi(n) que, pela equacao é igual a (p-1)*(q-1)
+        phi = (p-1)*(q-1)
+        e = self.generate_prime(limit=phi)
+
+        # Acha um inteiro "e" em que "e" e "phi" são coprimos
+        while (self.gcd(e, phi) != 1):
+            print("Não é coprimo, tentando de novo.")
+            e = self.generate_prime(limit=phi)
+
+        
+        self.p,self.q,self.e,self.phi,self.n = p,q,e,phi,n
+        return 1
 
     @staticmethod
-    def generate_keypair(p: int, q: int) -> None:
-        """
-        p - prime number
-        q - another prime number
-        """
-        # you must use d = multiplicative_inverse(e, phi) and gcd(e, phi)
-
-        return
-
-    @staticmethod
-    def encrypt(pk, message: str)  -> str:
+    def encrypt(pk, message: str) -> str:
         """
         pk - private key
         message - plain text to cipher
@@ -106,4 +131,3 @@ class Rsa:
     @staticmethod
     def decrypt(pk: int, ciphertext: str) -> None:
         return
-        
