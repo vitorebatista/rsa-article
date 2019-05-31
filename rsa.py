@@ -8,6 +8,8 @@ References:
 """
 import random
 
+prime_number_limit = 1000
+
 class Rsa:
     def __init__(self):
         self.p = 0
@@ -18,16 +20,33 @@ class Rsa:
         """
         Greatest common divisor
         """
-        while b != 0:
-            a, b = b, a % b
+        # o algoritmo de Euclides recebe dois valores para os quais se deseja calcular o 
+        # maximo divisor comum (maior número que é divisível pelos dois valores) e realiza
+        # divisoes sucessivas até encontrar o último resto não nulo desse processo
+        # ex: a/b = q1 (r1 sendo div)
+        #     b/r1 = q2 (r2 sendo mod)
+        #     r1/r2 = q3 (r3 sendo mod)
+        #     [...] mdc(a,b) = rn
+        while (b > 0):
+            q = int(a/b) # calcula o resultado inteiro da divisao
+            r = (a % b) # calcula o resto da divisao
+            a = b
+            b = r
+        
+        #while b != 0:
+        #    a, b = b, a % b
+        
         return a
 
-    def generate_prime(self) -> int:
+    def generate_prime(self,limit: int = prime_number_limit) -> int:
         # números primos são valores inteiros maiores que 1
         # divisíveis apenas por 1 e por si mesmos
-        prime_number_limit = 1000
+
+        # define maior limite entre prime_number_limit e parametro limit
+        limit = prime_number_limit if (limit > prime_number_limit) else limit
+
         # gera número aleatorio entre 2 e prime_number_limit
-        number = random.randint(2,prime_number_limit)
+        number = random.randint(2,limit)
 
         # se for par, soma 1 para ser ímpar (pares não são primos, exceto 2)
         if (number % 2) == 0:
@@ -55,6 +74,7 @@ class Rsa:
                 break
             
         return is_prime
+        # temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
 
 
     '''
