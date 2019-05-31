@@ -43,7 +43,6 @@ while ( rsa.gcd(e,phi) != 1 ):
 
 
 
-
 letra = ord('a')
 print( "ascii %d é %s " % (letra, str(chr(letra)) )  )
 
