@@ -5,6 +5,9 @@ References:
     https://github.com/jacksjm/rsa-python/blob/master/brutalForce.py
     https://github.com/sybrenstuvel/python-rsa/blob/master/rsa/prime.py
     https://github.com/MatthewCLind/Crypto_Practice/blob/master/RSA_keygen.py
+
+    Euclides:
+    http://nuitshell.blogspot.com/2014/07/algoritmo-estendido-de-euclides.html
 """
 import random
 
@@ -116,8 +119,7 @@ class Rsa:
             print("Não é coprimo, tentando de novo.")
             e = self.generate_prime(limit=phi)
 
-        
-        self.p,self.q,self.e,self.phi,self.n = p,q,e,phi,n
+        self.p, self.q, self.e, self.phi, self.n = p, q, e, phi, n
         return 1
 
 
@@ -142,3 +144,11 @@ class Rsa:
 
         
         return
+
+    @staticmethod
+    def xmdc(a: int, b: int) -> list:
+        if b == 0:
+            return [1, 0, a]
+        else:
+            x, y, d = Rsa.xmdc(b, a % b)
+            return [y, x-(a//b)*y, d]

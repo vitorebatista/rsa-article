@@ -26,15 +26,21 @@ rsa = Rsa()
 q = rsa.generate_prime()
 p = rsa.generate_prime(skip=q)
 
+<<<<<<< HEAD
 rsa.generate_keypair(p,q)
 
 coded_message = rsa.encrypt('hello world')
 
+=======
+letra = ord('a')
+print("ascii %d é %s " % (letra, str(chr(letra))))
+>>>>>>> de08cdc9f394a0a8c089b33af8721f0b1e75731b
 
-k = rsa.generate_keypair(p,q)
+k = rsa.generate_keypair(p, q)
 print("p:   %d" % rsa.p)
 print("q    %d" % rsa.q)
 print("e    %d" % rsa.e)
 print("n    %d" % rsa.n)
 print("phi  %d" % rsa.phi)
 
+print(rsa.xmdc(2024, 748))
