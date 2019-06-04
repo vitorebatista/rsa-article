@@ -139,5 +139,5 @@ class Rsa:
         if b == 0:
             return [1, 0, a]
         else:
-            x, y, d = xmdc(b, a % b)
+            x, y, d = Rsa.xmdc(b, a % b)
             return [y, x-(a//b)*y, d]
