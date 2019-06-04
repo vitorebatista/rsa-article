@@ -97,6 +97,7 @@ class Rsa:
         p - número primo
         q - outro número primo
         """
+
         if not (is_prime(p) and is_prime(q)):
             raise ValueError('p e q devem ser primos para gerar a chave.')
         elif p == q:
@@ -119,15 +120,25 @@ class Rsa:
         self.p,self.q,self.e,self.phi,self.n = p,q,e,phi,n
         return 1
 
-    @staticmethod
-    def encrypt(pk, message: str) -> str:
+
+    def encrypt(self, message: str) -> str:
         """
         pk - private key
         message - plain text to cipher
         """
-        cipher = ''
-        return cipher
 
-    @staticmethod
+        crypted_message = []
+
+        for c in message:
+            ascii_code = ord(c) #codigo ascii do caracter message
+            coded_letter = pow(ascii_code, self.e, self.n) #letra^e mod n
+            crypted_message.append(coded_letter)
+
+        return crypted_message
+
+
+
     def decrypt(pk: int, ciphertext: str) -> None:
+
+        
         return

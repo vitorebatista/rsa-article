@@ -26,8 +26,10 @@ rsa = Rsa()
 q = rsa.generate_prime()
 p = rsa.generate_prime(skip=q)
 
-letra = ord('a')
-print( "ascii %d é %s " % (letra, str(chr(letra)) )  )
+rsa.generate_keypair(p,q)
+
+coded_message = rsa.encrypt('hello world')
+
 
 k = rsa.generate_keypair(p,q)
 print("p:   %d" % rsa.p)
