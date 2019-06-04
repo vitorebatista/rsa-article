@@ -27,12 +27,13 @@ q = rsa.generate_prime()
 p = rsa.generate_prime(skip=q)
 
 letra = ord('a')
-print( "ascii %d é %s " % (letra, str(chr(letra)) )  )
+print("ascii %d é %s " % (letra, str(chr(letra))))
 
-k = rsa.generate_keypair(p,q)
+k = rsa.generate_keypair(p, q)
 print("p:   %d" % rsa.p)
 print("q    %d" % rsa.q)
 print("e    %d" % rsa.e)
 print("n    %d" % rsa.n)
 print("phi  %d" % rsa.phi)
 
+print(rsa.xmdc(2024, 748))
