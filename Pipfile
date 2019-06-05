@@ -7,7 +7,7 @@ verify_ssl = true
 pylint = "*"
 
 [packages]
-random = "*"
+matplotlib = "*"
 
 [requires]
 python_version = "3.7"
