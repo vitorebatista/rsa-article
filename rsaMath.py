@@ -2,8 +2,7 @@ import random
 
 class rsaMath:
 
-
-
+    @staticmethod
     def is_prime(number: int) -> int:
         """
         Test to see if a number is prime.
@@ -20,7 +19,7 @@ class rsaMath:
         return is_prime
 
 
-
+    @staticmethod
     def gcd(a: int, b: int) -> int:
         """
         Greatest common divisor
@@ -44,8 +43,8 @@ class rsaMath:
         return a
 
 
-
-    def xgcd(a: int,b: int) -> int:
+    @staticmethod
+    def xgcd(a: int, b: int) -> list:
 
         if b == 0:
             return [1,0,a]

@@ -11,7 +11,7 @@ References:
     Euclides:
     http://nuitshell.blogspot.com/2014/07/algoritmo-estendido-de-euclides.html
 """
-
+import random
 from rsaMath import rsaMath
 
 prime_number_limit = 1000
@@ -62,7 +62,7 @@ class Rsa:
         return number
 
 
-    def generate_keypair(self, p: int, q: int) -> int:
+    def generate_keypair(self, p: int, q: int) -> None:
         """
         p - número primo
         q - outro número primo
@@ -94,7 +94,7 @@ class Rsa:
 
 
     @staticmethod
-    def encrypt(pk: list, message: str) -> str:
+    def encrypt(pk: list, message: str) -> list:
         """
         pk - private key
         message - plain text to cipher
@@ -110,10 +110,10 @@ class Rsa:
         return crypted_message
 
 
-    def decrypt(self, message: list) -> None:
+    def decrypt(self, message: list) -> str:
 
         euclides_array = rsaMath.xgcd(self.e, self.phi)
-        self.privateKey = [euclides_array[0],self.n]
+        self.privateKey = [euclides_array[0], self.n]
         
         decrypted_message = ''
 
