@@ -19,6 +19,9 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 import math
 from rsa import Rsa
 from rsaMath import rsaMath
+from graph import graphPlot
+import time
+
 
 def brutalForce(coded_message, pk):
 
@@ -64,3 +67,28 @@ broken_message = brutalForce(coded_message, rsa.publicKey)
 
 print(decoded_message)
 print(broken_message)
+
+
+graphPlot = graphPlot()
+
+for i in range(1,4):
+    rsa = Rsa()
+    #rsa.setBitsSize(8*i)
+    
+    codeValues = []
+    breakValues = []
+
+    start = time.time()
+    coded_message = rsa.encrypt(rsa.publicKey, 'people turn the tv on and the brain off')
+    codeValues =  ['code', 8*i, time.time()-start] 
+
+    start = time.time()
+    broken_message = brutalForce(coded_message, rsa.publicKey)
+    breakValues = ['break', 8*i, time.time()-start]
+
+    graphPlot.addValues(codeValues)
+    graphPlot.addValues(breakValues)
+
+graphPlot.plot()
+
+
