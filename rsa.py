@@ -11,62 +11,12 @@ References:
     Euclides:
     http://nuitshell.blogspot.com/2014/07/algoritmo-estendido-de-euclides.html
 """
-import random
+
+from rsaMath import rsaMath
 
 prime_number_limit = 1000
 
 # TODO: temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
-
-
-def is_prime(number: int) -> int:
-    """
-    Test to see if a number is prime.
-    """
-
-    is_prime = True
-
-    # tenta dividir pelos números a partir de 3 até sua metade, andando de 2 em 2
-    for n in range(3, int(number/2)+2, 2):
-        if (number % n) == 0:
-            is_prime = False
-            break
-
-    return is_prime
-
-def gcd(a: int, b: int) -> int:
-    """
-    Greatest common divisor
-    """
-    # o algoritmo de Euclides recebe dois valores para os quais se deseja calcular o
-    # maximo divisor comum (maior número que é divisível pelos dois valores) e realiza
-    # divisoes sucessivas até encontrar o último resto não nulo desse processo
-    # ex: a/b = q1 (r1 sendo div)
-    #     b/r1 = q2 (r2 sendo mod)
-    #     r1/r2 = q3 (r3 sendo mod)
-    #     [...] mdc(a,b) = rn
-    while (b > 0):
-        q = int(a/b)  # calcula o resultado inteiro da divisao
-        r = (a % b)  # calcula o resto da divisao
-        a = b
-        b = r
-
-    # while b != 0:
-    #    a, b = b, a % b
-
-    return a
-
-
-
-def xgcd(a: int,b: int) -> int:
-
-    if b == 0:
-        return [1,0,a]
-    else:
-        x,y,d = xgcd(b, a%b)
-    
-    return [y,x-(a//b)*y,d]
-
-
 
 class Rsa:
     def __init__(self):
@@ -101,7 +51,7 @@ class Rsa:
             number += 1
 
         # enquanto não for primo, soma dois e tenta novamente
-        while not is_prime(number):
+        while not rsaMath.is_prime(number):
             number += 2
 
         # garante que p e q sejam números diferentes
@@ -118,7 +68,7 @@ class Rsa:
         q - outro número primo
         """
 
-        if not (is_prime(p) and is_prime(q)):
+        if not (rsaMath.is_prime(p) and rsaMath.is_prime(q)):
             raise ValueError('p e q devem ser primos para gerar a chave.')
         elif p == q:
             raise ValueError('p e q não podem ser iguais para gerar a chave.')
@@ -132,7 +82,7 @@ class Rsa:
         e = 13#self.generate_prime(limit=phi) #13
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
-        while ( gcd(e, phi) != 1):
+        while ( rsaMath.gcd(e, phi) != 1):
             print("Não é coprimo, tentando de novo.")
             e = self.generate_prime(limit=phi)
 
@@ -162,7 +112,7 @@ class Rsa:
 
     def decrypt(self, message: list) -> None:
 
-        euclides_array = xgcd(self.e, self.phi)
+        euclides_array = rsaMath.xgcd(self.e, self.phi)
         self.privateKey = [euclides_array[0],self.n]
         
         decrypted_message = ''

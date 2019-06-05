@@ -16,11 +16,13 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
     - Gráficos com os tempos de execução da geração das chaves e dos dois procedimentos de fatoração para inteiros com n-bits.
 """
 
-from rsa import Rsa
 import math
-
+from rsa import Rsa
+from rsaMath import rsaMath
 
 def brutalForce(coded_message, pk):
+
+    decrypted_message = ''
 
     p = 1
     q = 1
@@ -31,6 +33,7 @@ def brutalForce(coded_message, pk):
     nSqrt = math.sqrt(n)
     nControl = 3
 
+    #dado n tenta descobrir p e q
     while nControl <= nSqrt:
         if (n % nControl) == 0:
             p = n//nControl
@@ -40,11 +43,15 @@ def brutalForce(coded_message, pk):
     
     phi = (p-1)*(q-1)
 
-    #euclides_array = 
-    #xgcd(e,phi)
-    
+    euclides_array = rsaMath.xgcd(e,phi)
+    d = euclides_array[0]
 
-    return
+    for c in coded_message:
+        decoded_letter = pow(c,d,n)
+        decoded_letter = str(chr(decoded_letter))
+        decrypted_message += decoded_letter
+
+    return decrypted_message
 
 
 
@@ -53,6 +60,7 @@ rsa = Rsa()
 coded_message = rsa.encrypt(rsa.publicKey, 'hello world')
 decoded_message = rsa.decrypt(coded_message)
 
-brutalForce(coded_message, rsa.publicKey)
+broken_message = brutalForce(coded_message, rsa.publicKey)
 
-
+print(decoded_message)
+print(broken_message)
