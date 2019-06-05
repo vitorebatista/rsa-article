@@ -6,6 +6,8 @@ References:
     https://github.com/sybrenstuvel/python-rsa/blob/master/rsa/prime.py
     https://github.com/MatthewCLind/Crypto_Practice/blob/master/RSA_keygen.py
 
+    https://www.lambda3.com.br/2012/12/entendendo-de-verdade-a-criptografia-rsa-parte-ii/
+
     Euclides:
     http://nuitshell.blogspot.com/2014/07/algoritmo-estendido-de-euclides.html
 """
@@ -31,37 +33,58 @@ def is_prime(number: int) -> int:
 
     return is_prime
 
+def gcd(a: int, b: int) -> int:
+    """
+    Greatest common divisor
+    """
+    # o algoritmo de Euclides recebe dois valores para os quais se deseja calcular o
+    # maximo divisor comum (maior número que é divisível pelos dois valores) e realiza
+    # divisoes sucessivas até encontrar o último resto não nulo desse processo
+    # ex: a/b = q1 (r1 sendo div)
+    #     b/r1 = q2 (r2 sendo mod)
+    #     r1/r2 = q3 (r3 sendo mod)
+    #     [...] mdc(a,b) = rn
+    while (b > 0):
+        q = int(a/b)  # calcula o resultado inteiro da divisao
+        r = (a % b)  # calcula o resto da divisao
+        a = b
+        b = r
+
+    # while b != 0:
+    #    a, b = b, a % b
+
+    return a
+
+
+
+def xgcd(a: int,b: int) -> int:
+
+    if b == 0:
+        return [1,0,a]
+    else:
+        x,y,d = xgcd(b, a%b)
+    
+    return [y,x-(a//b)*y,d]
+
+
 
 class Rsa:
     def __init__(self):
-        self.p = 0
-        self.q = 0
-        self.e = 0
-        self.n = 0
-        self.phi = 0
 
-    @staticmethod
-    def gcd(a: int, b: int) -> int:
-        """
-        Greatest common divisor
-        """
-        # o algoritmo de Euclides recebe dois valores para os quais se deseja calcular o
-        # maximo divisor comum (maior número que é divisível pelos dois valores) e realiza
-        # divisoes sucessivas até encontrar o último resto não nulo desse processo
-        # ex: a/b = q1 (r1 sendo div)
-        #     b/r1 = q2 (r2 sendo mod)
-        #     r1/r2 = q3 (r3 sendo mod)
-        #     [...] mdc(a,b) = rn
-        while (b > 0):
-            q = int(a/b)  # calcula o resultado inteiro da divisao
-            r = (a % b)  # calcula o resto da divisao
-            a = b
-            b = r
+        self.p = 0 #primeiro numero primo
+        self.q = 0 #segundo numero primo
+        self.n = 0 #representa o tamanho do conjunto (p*q)
+        self.e = 0 #primo relativo de phi cujo gdc(e,phi) = 1
+        self.phi = 0 #totiente
 
-        # while b != 0:
-        #    a, b = b, a % b
+        self.publicKey = [] #chave publica
+        self.privateKey =[] #chave privada
 
-        return a
+        self.q = 17#self.generate_prime() #17
+        self.p = 41#self.generate_prime(skip=self.q) #41
+
+        self.generate_keypair(self.p, self.q)
+
 
     def generate_prime(self, limit: int = prime_number_limit, skip: int = 0, ) -> int:
         # números primos são valores inteiros maiores que 1
@@ -83,17 +106,11 @@ class Rsa:
 
         # garante que p e q sejam números diferentes
         if (skip == number):
-            print("p é igual, tentando de novo")
+            #print("p é igual, tentando de novo")
             return self.generate_prime(skip=skip)
 
         return number
 
-    '''
-    Euclid's extended algorithm for finding the multiplicative inverse of two numbers
-    '''
-    @staticmethod
-    def multiplicative_inverse(e: int, phi: int) -> int:
-        return 1
 
     def generate_keypair(self, p: int, q: int) -> int:
         """
@@ -112,18 +129,22 @@ class Rsa:
         # 3. selecione um inteiro ímpar pequeno 'e' tal que ele seja primo em relacao
         # a phi(n) que, pela equacao é igual a (p-1)*(q-1)
         phi = (p-1)*(q-1)
-        e = self.generate_prime(limit=phi)
+        e = 13#self.generate_prime(limit=phi) #13
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
-        while (self.gcd(e, phi) != 1):
+        while ( gcd(e, phi) != 1):
             print("Não é coprimo, tentando de novo.")
             e = self.generate_prime(limit=phi)
 
         self.p, self.q, self.e, self.phi, self.n = p, q, e, phi, n
-        return 1
+
+        self.publicKey = [e,n]
+        
+        return
 
 
-    def encrypt(self, message: str) -> str:
+    @staticmethod
+    def encrypt(pk: list, message: str) -> str:
         """
         pk - private key
         message - plain text to cipher
@@ -133,22 +154,24 @@ class Rsa:
 
         for c in message:
             ascii_code = ord(c) #codigo ascii do caracter message
-            coded_letter = pow(ascii_code, self.e, self.n) #letra^e mod n
+            coded_letter = pow(ascii_code, pk[0], pk[1]) #letra^e mod n
             crypted_message.append(coded_letter)
 
         return crypted_message
 
 
+    def decrypt(self, message: list) -> None:
 
-    def decrypt(pk: int, ciphertext: str) -> None:
-
+        euclides_array = xgcd(self.e, self.phi)
+        self.privateKey = [euclides_array[0],self.n]
         
-        return
+        decrypted_message = ''
 
-    @staticmethod
-    def xmdc(a: int, b: int) -> list:
-        if b == 0:
-            return [1, 0, a]
-        else:
-            x, y, d = Rsa.xmdc(b, a % b)
-            return [y, x-(a//b)*y, d]
+        for c in message:
+            decoded_letter = pow(c,self.privateKey[0],self.privateKey[1])
+            decoded_letter = str(chr(decoded_letter))
+            decrypted_message += decoded_letter
+
+        return decrypted_message
+
+

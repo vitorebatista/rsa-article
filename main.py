@@ -17,25 +17,42 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 """
 
 from rsa import Rsa
+import math
+
+
+def brutalForce(coded_message, pk):
+
+    p = 1
+    q = 1
+
+    e = pk[0]
+    n = pk[1]
+
+    nSqrt = math.sqrt(n)
+    nControl = 3
+
+    while nControl <= nSqrt:
+        if (n % nControl) == 0:
+            p = n//nControl
+            q = nControl
+            break
+        nControl += 2
+    
+    phi = (p-1)*(q-1)
+
+    #euclides_array = 
+    #xgcd(e,phi)
+    
+
+    return
+
+
+
 
 rsa = Rsa()
+coded_message = rsa.encrypt(rsa.publicKey, 'hello world')
+decoded_message = rsa.decrypt(coded_message)
 
-# 1. selecione ao acaso dois números primos grandes p e q, tal qu p <> q.
-# os primos p e q podem ter, digamos, 512 bits cada um
-
-q = rsa.generate_prime()
-p = rsa.generate_prime(skip=q)
-
-rsa.generate_keypair(p,q)
-
-coded_message = rsa.encrypt('hello world')
+brutalForce(coded_message, rsa.publicKey)
 
 
-k = rsa.generate_keypair(p, q)
-print("p:   %d" % rsa.p)
-print("q    %d" % rsa.q)
-print("e    %d" % rsa.e)
-print("n    %d" % rsa.n)
-print("phi  %d" % rsa.phi)
-
-print(rsa.xmdc(2024, 748))
