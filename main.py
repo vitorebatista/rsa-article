@@ -41,8 +41,8 @@ print('broken_message', broken_message)
 
 graphPlot = graphPlot()
 
-for i in range(1,4):
-    bits = i*8
+for i in range(1,10):
+    bits = i*2
 
     print("Executando com %d bits" % bits)
     rsa = Rsa()
