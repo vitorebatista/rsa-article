@@ -56,10 +56,10 @@ class Rsa:
         # enquanto não for primo, soma dois e tenta novamente
         while not is_prime(number): 
             # TODO verificar o motivo de +2, pq pode ser maior que o limit ocorrendo erro
-            if limit > 0:
-                number = random.randint(1, limit - 1)
-            else:
-                number += 2
+            print("number", number, limit)
+            number += 2 
+            if (limit > 0 & number > limit):
+                number = random.randint(1, limit - 1) #2 ** (self.bits - 1) + 1   #r
 
         # garante que p e q sejam números diferentes
         if skip == number:
@@ -85,7 +85,7 @@ class Rsa:
         # 3. selecione um inteiro ímpar pequeno 'e' tal que ele seja primo em relacao
         # a phi(n) que, pela equacao é igual a (p-1)*(q-1)
         phi = (p - 1) * (q - 1)
-        e = self.generate_prime(limit=phi)  # 13
+        e = self.generate_prime(limit=phi)
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
         while gcd(e, phi) != 1:
@@ -142,6 +142,7 @@ class Rsa:
 
         # dado n tenta descobrir p e q
         while nControl <= nSqrt:
+            print("while nControl <= nSqrt:")
             if (n % nControl) == 0:
                 p = n // nControl
                 q = nControl
@@ -152,6 +153,7 @@ class Rsa:
         d = find_inverse(e, phi)
 
         for c in coded_message:
+            print("for c in coded_message:")
             decoded_letter = pow(c, d, n)
             decoded_letter = str(chr(decoded_letter))
             decrypted_message += decoded_letter

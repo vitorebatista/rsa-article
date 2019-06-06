@@ -4,11 +4,12 @@ Implementar um algoritmo de força bruta para quebra da chave criptográfica e
 que permita quebrar chaves um pouco maiores que o algoritmo de força bruta (e.g. Pollard-Rho).
 
 É obrigatória a implementação das seguintes funções:
-    - Geração das chaves pública e privadas, principalmente a verificação de primalidade de um número;
-    - Algoritmo de Euclides Estendido;
-    - Função para criptografar e descriptografar dados de um arquivo;
-    - Algoritmo de força bruta para a fatoração da chave pública nos números primos que a geraram;
-    - Heurística para fatoração de números primos.
+    -[ok] Geração das chaves pública e privadas,
+    [pendente] principalmente a verificação de primalidade de um número; --fermet
+    - [ok] Algoritmo de Euclides Estendido;
+    - [pendente] Função para criptografar e descriptografar dados de um arquivo; --Falta o arquivo
+    - [ok] Algoritmo de força bruta para a fatoração da chave pública nos números primos que a geraram;
+    - [ok] Heurística para fatoração de números primos.
 
 Escrever um relatório técnico de até sete páginas no formato de artigo da SBC, o artigo deve conter:
     - Uma introdução sobre o funcionamento de criptografia de chave pública;
@@ -40,8 +41,8 @@ print('broken_message', broken_message)
 
 graphPlot = graphPlot()
 
-for i in range(3,12):
-    bits = i
+for i in range(1,4):
+    bits = i*8
 
     print("Executando com %d bits" % bits)
     rsa = Rsa()
