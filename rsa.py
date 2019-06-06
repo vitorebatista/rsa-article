@@ -13,7 +13,7 @@ References:
 """
 import random
 import math
-from generic import find_inverse, is_prime, is_prime_fermat, gcd
+from generic import find_inverse, is_prime, is_prime_fermat, is_prime_miller, gcd
 
 # TODO: temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
 prime_number_limit = 1000
@@ -54,7 +54,7 @@ class Rsa:
             number += 1
 
         # enquanto não for primo, soma dois e tenta novamente
-        while not is_prime(number): 
+        while not is_prime_miller(number): 
             # TODO verificar o motivo de +2, pq pode ser maior que o limit ocorrendo erro
             print("number", number, limit)
             number += 2 
@@ -74,7 +74,7 @@ class Rsa:
         q - outro número primo
         """
 
-        if not (is_prime(p) and is_prime(q)): # quem sabe is_prime_fermat
+        if not (is_prime_miller(p) and is_prime_miller(q)): # quem sabe is_prime_fermat ou is_prime_miller
             raise ValueError("p e q devem ser primos para gerar a chave.")
         elif p == q:
             raise ValueError("p e q não podem ser iguais para gerar a chave.")
@@ -127,7 +127,7 @@ class Rsa:
         return decrypted_message
 
     @staticmethod
-    def brutalForce(coded_message, pk):
+    def brutalForce(coded_message: str, pk: list) -> str:
 
         decrypted_message = ""
 
@@ -142,7 +142,7 @@ class Rsa:
 
         # dado n tenta descobrir p e q
         while nControl <= nSqrt:
-            print("while nControl <= nSqrt:")
+            print("while nControl <= nSqrt:", nControl)
             if (n % nControl) == 0:
                 p = n // nControl
                 q = nControl
