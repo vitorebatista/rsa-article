@@ -16,6 +16,24 @@ def is_prime(number: int) -> int:
 
     return is_prime
 
+def is_prime_fermat(n, k = 20):
+    # https://gist.github.com/Ayrx/5884802
+    # Implementation uses the Fermat Primality Test
+    
+    # If number is even, it's a composite number
+
+    if n == 2:
+        return True
+
+    if n % 2 == 0:
+        return False
+
+    for i in range(k):
+        a = random.randint(1, n-1)
+
+        if pow(a, n-1) % n != 1:
+            return False
+    return True
 
 def gcd(a: int, b: int) -> int:
     """

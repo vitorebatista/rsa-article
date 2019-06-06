@@ -13,7 +13,7 @@ References:
 """
 import random
 import math
-from generic import find_inverse, is_prime, xgcd, gcd
+from generic import find_inverse, is_prime, is_prime_fermat, gcd
 
 # TODO: temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
 prime_number_limit = 1000
@@ -74,7 +74,7 @@ class Rsa:
         q - outro número primo
         """
 
-        if not (is_prime(p) and is_prime(q)):
+        if not (is_prime(p) and is_prime(q)): # quem sabe is_prime_fermat
             raise ValueError("p e q devem ser primos para gerar a chave.")
         elif p == q:
             raise ValueError("p e q não podem ser iguais para gerar a chave.")
