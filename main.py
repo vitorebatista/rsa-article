@@ -22,11 +22,6 @@ from graph import graphPlot
 import time
 
 
-
-
-
-
-
 rsa = Rsa()
 # p = rsa.generate_prime()
 # q = rsa.generate_prime(limit=p) # 17
@@ -35,37 +30,41 @@ q = 17
 p = 41
 rsa.set_bits(2)
 rsa.generate_keypair(p, q)
-coded_message = rsa.encrypt(rsa.publicKey, 'This is a message 1234 *&6^\'/q@1')
+coded_message = rsa.encrypt(rsa.publicKey, "This is a message 1234 *&6^'/q@1")
 decoded_message = rsa.decrypt(coded_message)
-
 broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
 
 print(decoded_message)
-print(broken_message)
+print('broken_message', broken_message)
 
-'''
+
 graphPlot = graphPlot()
 
-for i in range(1,40):
+for i in range(3,12):
+    bits = i
+
+    print("Executando com %d bits" % bits)
     rsa = Rsa()
-    print(rsa.set_bits(8*i))
+    rsa.set_bits(bits)
+    p = rsa.generate_prime()
+    q = rsa.generate_prime(skip=p)
+    rsa.generate_keypair(p, q)
     
     codeValues = []
     breakValues = []
 
     start = time.time()
-    coded_message = rsa.encrypt(rsa.publicKey, 'people turn the tv on and the brain off')
-    codeValues =  ['code', 8*i, time.time()-start] 
-    print(codeValues)
+    coded_message = rsa.encrypt(rsa.publicKey, 'Primeiro eu queria cumprimentar os internautas. -Oi Internautas! Depois dizer que o meio ambiente é sem dúvida nenhuma uma ameaça ao desenvolvimento sustentável. E isso significa que é uma ameaça pro futuro do nosso planeta e dos nossos países. O desemprego beira 20%, ou seja, 1 em cada 4 portugueses.')
+    codeValues =  ['code', bits, time.time()-start] 
 
     start = time.time()
     broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
-    breakValues = ['break', 8*i, time.time()-start]
+    breakValues = ['break', bits, time.time()-start]
+    print('broken_message', broken_message)
 
     graphPlot.addValues(codeValues)
     graphPlot.addValues(breakValues)
 
-#graphPlot.plot()
+graphPlot.plot()
 
 
-'''
