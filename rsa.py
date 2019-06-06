@@ -55,16 +55,17 @@ class Rsa:
 
         # enquanto não for primo, soma dois e tenta novamente
         while not is_prime(number): 
-            number = random.randint(1, limit - 1)
             # TODO verificar o motivo de +2, pq pode ser maior que o limit ocorrendo erro
-            # number += 2
+            if limit > 0:
+                number = random.randint(1, limit - 1)
+            else:
+                number += 2
 
         # garante que p e q sejam números diferentes
         if skip == number:
             print("p é igual, tentando de novo")
             number = self.generate_prime(skip=skip)
         
-        print('number', number)
         return number
 
     def generate_keypair(self, p: int, q: int) -> None:
@@ -88,14 +89,13 @@ class Rsa:
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
         while gcd(e, phi) != 1:
-            print("Não é coprimo, tentando de novo.")
+            print("Não é coprimo, tentando de novo. e, phi", e, phi)
             e = self.generate_prime(limit=phi)
 
         self.p, self.q, self.e, self.phi, self.n = p, q, e, phi, n
-
         self.publicKey = [e, n]
-        print('phi', phi)
-        print('publicKey', [e, n])
+        self.d = find_inverse(self.e, self.phi)
+        self.privateKey = [self.d, self.n]
 
         return
 
@@ -116,11 +116,6 @@ class Rsa:
         return crypted_message
 
     def decrypt(self, message: list) -> str:
-
-        self.d = find_inverse(self.e, self.phi)
-        self.privateKey = [self.d, self.n]
-        print('e / phi', [self.e, self.phi])
-        print('privateKey', self.privateKey)
 
         decrypted_message = ""
 
@@ -154,7 +149,6 @@ class Rsa:
             nControl += 2
 
         phi = (p - 1) * (q - 1)
-
         d = find_inverse(e, phi)
 
         for c in coded_message:
