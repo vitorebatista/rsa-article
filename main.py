@@ -40,8 +40,8 @@ print('broken_message', broken_message)
 
 
 graphPlot = graphPlot()
-
-for i in range(1,10):
+message = 'Primeiro eu queria cumprimentar os internautas. -Oi Internautas! Depois dizer que o meio ambiente é sem dúvida nenhuma uma ameaça ao desenvolvimento sustentável. E isso significa que é uma ameaça pro futuro do nosso planeta e dos nossos países. O desemprego beira 20%, ou seja, 1 em cada 4 portugueses.'
+for i in range(1,12):
     bits = i*2
 
     print("Executando com %d bits" % bits)
@@ -55,7 +55,7 @@ for i in range(1,10):
     breakValues = []
 
     start = time.time()
-    coded_message = rsa.encrypt(rsa.publicKey, 'Primeiro eu queria cumprimentar os internautas. -Oi Internautas! Depois dizer que o meio ambiente é sem dúvida nenhuma uma ameaça ao desenvolvimento sustentável. E isso significa que é uma ameaça pro futuro do nosso planeta e dos nossos países. O desemprego beira 20%, ou seja, 1 em cada 4 portugueses.')
+    coded_message = rsa.encrypt(rsa.publicKey, message)
     codeValues =  ['code', bits, time.time()-start] 
 
     start = time.time()

@@ -13,7 +13,7 @@ References:
 """
 import random
 import math
-from generic import find_inverse, is_prime, is_prime_fermat, is_prime_miller, gcd
+from generic import find_inverse, is_prime, is_prime_fermat, is_prime_fermat_2, is_prime_miller, gcd
 
 # TODO: temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
 prime_number_limit = 1000
@@ -45,7 +45,7 @@ class Rsa:
         # https://security.stackexchange.com/a/37910
         if limit > 0:
             # gera número aleatorio entre 2 e prime_number_limit
-            number = random.randint(1, limit - 1)
+            number = random.randint(2 ** (self.bits - 1), limit - 1)
         else:
             number = random.randint(2 ** (self.bits - 1), 2 ** (self.bits))
 
@@ -54,12 +54,12 @@ class Rsa:
             number += 1
 
         # enquanto não for primo, soma dois e tenta novamente
-        while not is_prime_miller(number): 
+        while not is_prime_fermat_2(number): 
             # TODO verificar o motivo de +2, pq pode ser maior que o limit ocorrendo erro
             print("number", number, limit)
             number += 2 
             if (limit > 0 & number > limit):
-                number = random.randint(1, limit - 1) #2 ** (self.bits - 1) + 1   #r
+                number = random.randint(2 ** (self.bits - 1), limit - 1) #2 ** (self.bits - 1) + 1   #r
 
         # garante que p e q sejam números diferentes
         if skip == number:
@@ -74,7 +74,7 @@ class Rsa:
         q - outro número primo
         """
 
-        if not (is_prime_miller(p) and is_prime_miller(q)): # quem sabe is_prime_fermat ou is_prime_miller
+        if not (is_prime_fermat_2(p) and is_prime_fermat_2(q)): # quem sabe is_prime_fermat ou is_prime_miller
             raise ValueError("p e q devem ser primos para gerar a chave.")
         elif p == q:
             raise ValueError("p e q não podem ser iguais para gerar a chave.")
@@ -142,7 +142,7 @@ class Rsa:
 
         # dado n tenta descobrir p e q
         while nControl <= nSqrt:
-            print("while nControl <= nSqrt:", nControl)
+            print("Tentativa %d do BrutalForce" % nControl)
             if (n % nControl) == 0:
                 p = n // nControl
                 q = nControl
