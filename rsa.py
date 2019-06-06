@@ -12,6 +12,7 @@ References:
     http://nuitshell.blogspot.com/2014/07/algoritmo-estendido-de-euclides.html
 """
 import random
+import math
 from rsaMath import rsaMath
 
 prime_number_limit = 1000
@@ -124,4 +125,36 @@ class Rsa:
 
         return decrypted_message
 
+    @staticmethod
+    def brutalForce(coded_message, pk):
 
+        decrypted_message = ''
+
+        p = 1
+        q = 1
+
+        e = pk[0]
+        n = pk[1]
+
+        nSqrt = math.sqrt(n)
+        nControl = 3
+
+        #dado n tenta descobrir p e q
+        while nControl <= nSqrt:
+            if (n % nControl) == 0:
+                p = n//nControl
+                q = nControl
+                break
+            nControl += 2
+        
+        phi = (p-1)*(q-1)
+
+        euclides_array = rsaMath.xgcd(e,phi)
+        d = euclides_array[0]
+
+        for c in coded_message:
+            decoded_letter = pow(c,d,n)
+            decoded_letter = str(chr(decoded_letter))
+            decrypted_message += decoded_letter
+
+        return decrypted_message

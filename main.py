@@ -16,45 +16,14 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
     - Gráficos com os tempos de execução da geração das chaves e dos dois procedimentos de fatoração para inteiros com n-bits.
 """
 
-import math
+
 from rsa import Rsa
 from rsaMath import rsaMath
 from graph import graphPlot
 import time
 
 
-def brutalForce(coded_message, pk):
 
-    decrypted_message = ''
-
-    p = 1
-    q = 1
-
-    e = pk[0]
-    n = pk[1]
-
-    nSqrt = math.sqrt(n)
-    nControl = 3
-
-    #dado n tenta descobrir p e q
-    while nControl <= nSqrt:
-        if (n % nControl) == 0:
-            p = n//nControl
-            q = nControl
-            break
-        nControl += 2
-    
-    phi = (p-1)*(q-1)
-
-    euclides_array = rsaMath.xgcd(e,phi)
-    d = euclides_array[0]
-
-    for c in coded_message:
-        decoded_letter = pow(c,d,n)
-        decoded_letter = str(chr(decoded_letter))
-        decrypted_message += decoded_letter
-
-    return decrypted_message
 
 
 
@@ -63,7 +32,7 @@ rsa = Rsa()
 coded_message = rsa.encrypt(rsa.publicKey, 'hello world')
 decoded_message = rsa.decrypt(coded_message)
 
-broken_message = brutalForce(coded_message, rsa.publicKey)
+broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
 
 print(decoded_message)
 print(broken_message)
@@ -83,7 +52,7 @@ for i in range(1,4):
     codeValues =  ['code', 8*i, time.time()-start] 
 
     start = time.time()
-    broken_message = brutalForce(coded_message, rsa.publicKey)
+    broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
     breakValues = ['break', 8*i, time.time()-start]
 
     graphPlot.addValues(codeValues)
