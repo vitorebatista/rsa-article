@@ -13,7 +13,14 @@ References:
 """
 import random
 import math
-from generic import find_inverse, is_prime, is_prime_fermat, is_prime_fermat_2, is_prime_miller, gcd
+from generic import (
+    find_inverse,
+    is_prime,
+    is_prime_fermat,
+    is_prime_fermat_2,
+    is_prime_miller,
+    gcd,
+)
 
 # TODO: temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
 prime_number_limit = 1000
@@ -54,18 +61,18 @@ class Rsa:
             number += 1
 
         # enquanto não for primo, soma dois e tenta novamente
-        while not is_prime_fermat_2(number): 
+        while not is_prime_fermat_2(number):
             # TODO verificar o motivo de +2, pq pode ser maior que o limit ocorrendo erro
             print("number", number, limit)
-            number += 2 
-            if (limit > 0 & number > limit):
-                number = random.randint(2 ** (self.bits - 1), limit - 1) #2 ** (self.bits - 1) + 1   #r
+            number += 2
+            if limit > 0 & number > limit:
+                number = random.randint(2 ** (self.bits - 1), limit - 1)
 
         # garante que p e q sejam números diferentes
         if skip == number:
             print("p é igual, tentando de novo")
             number = self.generate_prime(skip=skip)
-        
+
         return number
 
     def generate_keypair(self, p: int, q: int) -> None:
@@ -73,8 +80,8 @@ class Rsa:
         p - número primo
         q - outro número primo
         """
-
-        if not (is_prime_fermat_2(p) and is_prime_fermat_2(q)): # quem sabe is_prime_fermat ou is_prime_miller
+        # Podemos testar com fermat e miller aqui
+        if not (is_prime_fermat_2(p) and is_prime_fermat_2(q)):
             raise ValueError("p e q devem ser primos para gerar a chave.")
         elif p == q:
             raise ValueError("p e q não podem ser iguais para gerar a chave.")
@@ -153,7 +160,6 @@ class Rsa:
         d = find_inverse(e, phi)
 
         for c in coded_message:
-            print("for c in coded_message:")
             decoded_letter = pow(c, d, n)
             decoded_letter = str(chr(decoded_letter))
             decrypted_message += decoded_letter
