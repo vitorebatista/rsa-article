@@ -18,7 +18,6 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 
 
 from rsa import Rsa
-from rsaMath import rsaMath
 from graph import graphPlot
 import time
 
@@ -29,7 +28,14 @@ import time
 
 
 rsa = Rsa()
-coded_message = rsa.encrypt(rsa.publicKey, 'hello world')
+# p = rsa.generate_prime()
+# q = rsa.generate_prime(limit=p) # 17
+
+q = 17
+p = 41
+rsa.set_bits(2)
+rsa.generate_keypair(p, q)
+coded_message = rsa.encrypt(rsa.publicKey, 'This is a message 1234 *&6^\'/q@1')
 decoded_message = rsa.decrypt(coded_message)
 
 broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
@@ -37,12 +43,12 @@ broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
 print(decoded_message)
 print(broken_message)
 
-
+'''
 graphPlot = graphPlot()
 
-for i in range(1,4):
+for i in range(1,40):
     rsa = Rsa()
-    #rsa.setBitsSize(8*i)
+    print(rsa.set_bits(8*i))
     
     codeValues = []
     breakValues = []
@@ -50,6 +56,7 @@ for i in range(1,4):
     start = time.time()
     coded_message = rsa.encrypt(rsa.publicKey, 'people turn the tv on and the brain off')
     codeValues =  ['code', 8*i, time.time()-start] 
+    print(codeValues)
 
     start = time.time()
     broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
@@ -58,6 +65,7 @@ for i in range(1,4):
     graphPlot.addValues(codeValues)
     graphPlot.addValues(breakValues)
 
-graphPlot.plot()
+#graphPlot.plot()
 
 
+'''
