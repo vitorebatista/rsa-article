@@ -56,7 +56,7 @@ class Rsa:
             is_prime_miller(n)
             if self.primeMethod == "miller"
             else is_prime_fermat(n)
-            if self.primeMethod == "miller"
+            if self.primeMethod == "fermat"
             else is_prime(n)
         )
 
