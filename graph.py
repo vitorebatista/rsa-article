@@ -27,13 +27,13 @@ class graphPlot:
             self.yvalues[pos].append(y)
 
 
-    def plot(self):
+    def plot(self,title= ''):
 
         for i in range(0,len(self.titles)):
             plt.plot( self.xvalues[i], self.yvalues[i] )
 
         plt.xlabel('n bits')
         plt.ylabel('time spent (ms)')
-        plt.title('Criptografia RSA')
+        plt.title('Criptografia RSA - %s' % title.capitalize())
         plt.xticks(np.arange(8, 25, 8)) 
         plt.show() 
