@@ -1,23 +1,52 @@
-from generic import is_prime, is_prime_fermat, is_prime_fermat_2, is_prime_miller
+from generic import is_prime, is_prime_fermat, is_prime_fermat_2, is_prime_fermat_3, is_prime_miller
 from time import time as t
+import numpy as np
+
+def getPrimeList(n):
+    """ Returns  a list of primes < n """
+    sieve = [True] * n
+    for i in range(3,int(n**0.5)+1,2):
+        if sieve[i]:
+            sieve[i*i::2*i]=[False]*((n-i*i-1)//(2*i)+1)
+    return [2] + [i for i in range(3,n,2) if sieve[i]]
+
+
+
+p0 = getPrimeList(10000)
+p1, p2, p3, p4, p5 = [], [], [] ,[] ,[]
 
 start = t()
 for i in range(2,10000):
-    is_prime(i)
+    p1.append(i) if is_prime(i) else None
 print("is_prime", t()-start) # is_prime 0.5039529800415039
+print("-> OK") if np.array_equal(p0,p1) else print("-> Problema")
+
 
 start = t()
 for i in range(2,10000):
-    is_prime_fermat(i)
+    p2.append(i) if is_prime_fermat(i) else None
 print("is_prime_fermat", t()-start) # is_prime_fermat 7.852689981460571
+print("-> OK") if np.array_equal(p0,p2) else print("-> Problema")
 
 
 start = t()
 for i in range(2,10000):
-    is_prime_fermat_2(i)
+    p3.append(i) if is_prime_fermat_2(i) else None
 print("is_prime_fermat_2", t()-start) # is_prime_fermat_2 0.012823820114135742
+print("-> OK") if np.array_equal(p0,p3) else print("-> Problema")
+
 
 start = t()
 for i in range(2,10000):
-    is_prime_miller(i)
+    p4.append(i) if is_prime_fermat_3(i) else None
+print("is_prime_fermat_3", t()-start) # is_prime_fermat_3
+print("-> OK") if np.array_equal(p0,p4) else print("-> Problema")
+
+
+start = t()
+for i in range(2,10000):
+    p5.append(i) if is_prime_miller(i) else None
 print("is_prime_miller", t()-start) # is_prime_miller 0.15883302688598633
+print("-> OK") if np.array_equal(p0,p5) else print("-> Problema")
+
+

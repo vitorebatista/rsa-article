@@ -1,7 +1,7 @@
 import random
 
 
-def is_prime(number: int) -> bool:
+def is_prime(n: int) -> bool:
     """
     Test to see if a number is prime.
     """
@@ -9,8 +9,8 @@ def is_prime(number: int) -> bool:
     is_prime = True
 
     # tenta dividir pelos números a partir de 3 até sua metade, andando de 2 em 2
-    for n in range(3, int(number / 2) + 2, 2):
-        if (number % n) == 0:
+    for i in range(2, n):
+        if (n % i) == 0:
             is_prime = False
             break
 
@@ -42,6 +42,14 @@ def is_prime_fermat_2(n) -> bool:
 	if not n & 1:
 		return False
 	return pow(2, n-1, n) == 1
+
+
+def is_prime_fermat_3(n) -> bool:
+    a = random.randint(1,(n-1))
+    while gcd(a,n) != 1:
+        a = random.randint(1,(n-1))
+    return (pow(a,(n-1),n) == 1)
+    
 
 def is_prime_miller(n, k=10) -> bool:
     #https://gist.github.com/bnlucas/5857478
