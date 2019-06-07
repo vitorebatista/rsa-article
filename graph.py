@@ -45,6 +45,7 @@ class graphPlot:
 
     @staticmethod
     def new_plot(info):
+        #https://python-graph-gallery.com/123-highlight-a-line-in-line-plot/
         plt.style.use("seaborn-darkgrid")
         df=pd.DataFrame(info)
         for column in df.drop('miller', axis=1):
