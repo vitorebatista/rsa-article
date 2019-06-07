@@ -1,7 +1,7 @@
 import random
 
 
-def is_prime(n: int) -> bool:
+def is_prime(number: int) -> bool:
     """
     Test to see if a number is prime.
     """
