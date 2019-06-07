@@ -2,6 +2,7 @@ from generic import is_prime, is_prime_fermat, is_prime_fermat_2, is_prime_ferma
 from time import time as t
 import numpy as np
 
+#https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n
 def getPrimeList(n):
     """ Returns  a list of primes < n """
     sieve = [True] * n
