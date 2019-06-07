@@ -24,7 +24,7 @@ def is_prime_fermat(number: int, k = 7) -> bool:
     if number == 2 or number == 3:
         return True
 
-    if n % 2 == 0:
+    if number % 2 == 0:
         return False
 
     for i in range(k):
