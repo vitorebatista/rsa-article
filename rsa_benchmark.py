@@ -18,11 +18,43 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 """
 
 
-from rsa_benchmark import rsa_benchmark
 from graph import graphPlot
+from rsa import Rsa
+import time
 
-message = "Projeto e Análise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-rsa_benchmark(type='fermat', message=message, bits=8)
 
+def rsa_benchmark(type="brutal", message="Hello World!", bits=24):
+    graph = graphPlot()
 
+    for i in range(1, bits//2):
+        bits = i * 2
+        timeEncrypt = 0
+        timeBrutal = 0
+        average = 20
+        for m in range(1, average):
+            print(f"Executando com {bits} bits - Tentativa {m}")
+
+            rsa = Rsa()
+            rsa.set_bits(bits)
+            rsa.set_prime_method("miller")
+            p = rsa.generate_prime()
+            q = rsa.generate_prime(skip=p)
+            rsa.generate_keypair(p, q)
+
+            codeValues, breakValues = [], []
+
+            start = time.time()
+            coded_message = rsa.encrypt(rsa.publicKey, message)
+            timeEncrypt += time.time() - start
+
+            start = time.time()
+            broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
+            timeBrutal += time.time() - start
+
+        print("broken_message", broken_message)
+
+        graph.addValues(["code", bits, timeEncrypt / average])
+        graph.addValues(["break", bits, timeBrutal / average])
+
+    graph.plot(rsa.primeMethod)
 
