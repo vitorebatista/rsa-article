@@ -29,8 +29,8 @@ def is_prime_fermat(number: int, k = 7) -> bool:
 
     for i in range(k):
         a = random.randint(1, number-1)
-
-        if pow(a, number-1) % number != 1:
+        # https://stackoverflow.com/questions/32738637/calculate-mod-using-pow-function-python
+        if pow(a, number-1, number) != 1:
             return False
     return True
 
