@@ -34,6 +34,7 @@ def is_prime_fermat(number: int, k=20) -> bool:
     for i in range(k):
         a = random.randint(1, number - 1)
         # https://stackoverflow.com/questions/32738637/calculate-mod-using-pow-function-python
+        # https://www.khanacademy.org/computing/computer-science/cryptography/random-algorithms-probability/v/fermat-primality-test-prime-adventure-part-10
         if pow(a, number - 1, number) != 1:
             return False
     return True
@@ -45,14 +46,6 @@ def is_prime_fermat_2(number: int) -> bool:
     if not number & 1:
         return False
     return pow(2, number - 1, number) == 1
-
-
-def is_prime_fermat_3(n) -> bool:
-    a = random.randint(1, (n - 1))
-    while gcd(a, n) != 1:
-        a = random.randint(1, (n - 1))
-    return pow(a, (n - 1), n) == 1
-
 
 def is_prime_miller(number: int, k=20) -> bool:
     # https://gist.github.com/bnlucas/5857478
