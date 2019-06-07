@@ -19,6 +19,7 @@ from generic import (
     is_prime_fermat,
     is_prime_fermat_2,
     is_prime_miller,
+    is_prime_miller_2,
     gcd,
 )
 
@@ -53,7 +54,7 @@ class Rsa:
         a forma bruta, Fermat ou Miller
         '''
         return (
-            is_prime_miller(n)
+            is_prime_miller_2(n)
             if self.primeMethod == "miller"
             else is_prime_fermat(n)
             if self.primeMethod == "fermat"
