@@ -29,6 +29,7 @@ prime_number_limit = 1000
 class Rsa:
     def __init__(self):
         self.bits = 3
+        self.primeMethod = "brute"
         self.p = 0  # primeiro numero primo
         self.q = 0  # segundo numero primo
         self.n = 0  # representa o tamanho do conjunto (p*q)
@@ -41,6 +42,23 @@ class Rsa:
     def set_bits(self, bits) -> None:
         self.bits = bits
         return
+
+    def set_prime_method(self, primeMethod="brute") -> None:
+        self.primeMethod = primeMethod
+        return
+
+    def is_prime(self, n: int) -> bool:
+        '''
+        Função para executar a função de verificação de número primo, utilizando
+        a forma bruta, Fermat ou Miller
+        '''
+        return (
+            is_prime_miller(n)
+            if self.primeMethod == "miller"
+            else is_prime_fermat(n)
+            if self.primeMethod == "miller"
+            else is_prime(n)
+        )
 
     def generate_prime(self, limit: int = 0, skip: int = 0) -> int:
         # números primos são valores inteiros maiores que 1
@@ -61,7 +79,7 @@ class Rsa:
             number += 1
 
         # enquanto não for primo, soma dois e tenta novamente
-        while not is_prime_fermat_2(number):
+        while not self.is_prime(number):
             # TODO verificar o motivo de +2, pq pode ser maior que o limit ocorrendo erro
             print("number", number, limit)
             number += 2
@@ -81,7 +99,7 @@ class Rsa:
         q - outro número primo
         """
         # Podemos testar com fermat e miller aqui
-        if not (is_prime_fermat_2(p) and is_prime_fermat_2(q)):
+        if not (self.is_prime(p) and self.is_prime(q)):
             raise ValueError("p e q devem ser primos para gerar a chave.")
         elif p == q:
             raise ValueError("p e q não podem ser iguais para gerar a chave.")

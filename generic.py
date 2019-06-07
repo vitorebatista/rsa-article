@@ -1,7 +1,7 @@
 import random
 
 
-def is_prime(number: int) -> int:
+def is_prime(number: int) -> bool:
     """
     Test to see if a number is prime.
     """
@@ -16,7 +16,7 @@ def is_prime(number: int) -> int:
 
     return is_prime
 
-def is_prime_fermat(n, k = 7):
+def is_prime_fermat(n, k = 7) -> bool:
     # https://gist.github.com/Ayrx/5884802
     # Implementation uses the Fermat Primality Test
     
@@ -36,14 +36,14 @@ def is_prime_fermat(n, k = 7):
     return True
 
 
-def is_prime_fermat_2(n):
+def is_prime_fermat_2(n) -> bool:
 	if n == 2:
 		return True
 	if not n & 1:
 		return False
 	return pow(2, n-1, n) == 1
 
-def is_prime_miller(n, k=10):
+def is_prime_miller(n, k=10) -> bool:
     #https://gist.github.com/bnlucas/5857478
 	if n == 2 or n == 3:
 		return True
