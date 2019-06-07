@@ -29,35 +29,35 @@ p1, p2, p3, p4, p5 = [], [], [] ,[] ,[]
 start = t()
 for i in range(2,amout_test):
     p1.append(i) if is_prime(i) else None
-print("is_prime", t()-start) # is_prime 0.5039529800415039
+print("is_prime", t()-start) # is_prime 0.17274880409240723
 print("-> OK") if np.array_equal(p0,p1) else print("-> Problema",print_diff(p0,p1))
 
 
 start = t()
 for i in range(2,amout_test):
     p2.append(i) if is_prime_fermat(i) else None
-print("is_prime_fermat", t()-start) # is_prime_fermat 7.852689981460571
+print("is_prime_fermat", t()-start) # is_prime_fermat 0.2040262222290039
 print("-> OK") if np.array_equal(p0,p2) else print("-> Problema",print_diff(p0,p2))
 
 
 start = t()
 for i in range(2,amout_test):
     p3.append(i) if is_prime_fermat_2(i) else None
-print("is_prime_fermat_2", t()-start) # is_prime_fermat_2 0.012823820114135742
+print("is_prime_fermat_2", t()-start) # is_prime_fermat_2 0.02365899085998535
 print("-> OK") if np.array_equal(p0,p3) else print("-> Problema",print_diff(p0,p3))
 
 
 start = t()
 for i in range(2,amout_test):
     p4.append(i) if is_prime_fermat_3(i) else None
-print("is_prime_fermat_3", t()-start) # is_prime_fermat_3
+print("is_prime_fermat_3", t()-start) # is_prime_fermat_3 0.25664591789245605
 print("-> OK") if np.array_equal(p0,p4) else print("-> Problema",print_diff(p0,p4))
 
 
 start = t()
 for i in range(2,amout_test):
     p5.append(i) if is_prime_miller(i) else None
-print("is_prime_miller", t()-start) # is_prime_miller 0.15883302688598633
+print("is_prime_miller", t()-start) # is_prime_miller 0.20272493362426758
 print("-> OK") if np.array_equal(p0,p5) else print("-> Problema",print_diff(p0,p5))
 
 
