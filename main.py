@@ -47,7 +47,7 @@ for i in range(1,12):
     print("Executando com %d bits" % bits)
     rsa = Rsa()
     rsa.set_bits(bits)
-    rsa.set_prime_method('miller')
+    rsa.set_prime_method('fermat')
     p = rsa.generate_prime()
     q = rsa.generate_prime(skip=p)
     rsa.generate_keypair(p, q)
