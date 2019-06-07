@@ -19,7 +19,7 @@ def is_prime(number: int) -> bool:
     return True
 
 
-def is_prime_fermat(number: int, k=7) -> bool:
+def is_prime_fermat(number: int, k=20) -> bool:
     # https://gist.github.com/Ayrx/5884802
     # Implementation uses the Fermat Primality Test
 
@@ -54,7 +54,7 @@ def is_prime_fermat_3(n) -> bool:
     return pow(a, (n - 1), n) == 1
 
 
-def is_prime_miller(number: int, k=10) -> bool:
+def is_prime_miller(number: int, k=20) -> bool:
     # https://gist.github.com/bnlucas/5857478
     if number == 2 or number == 3:
         return True
