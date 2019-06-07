@@ -5,71 +5,70 @@ def is_prime(number: int) -> bool:
     """
     Test to see if a number is prime.
     """
-
-    is_prime = True
+    if number == 2 or number == 3:
+        return True
 
     # tenta dividir pelos números a partir de 3 até sua metade, andando de 2 em 2
     for n in range(3, int(number / 2) + 2, 2):
         if (number % n) == 0:
-            is_prime = False
-            break
+            return False
 
-    return is_prime
+    return True
 
-def is_prime_fermat(n, k = 7) -> bool:
+def is_prime_fermat(number: int, k = 7) -> bool:
     # https://gist.github.com/Ayrx/5884802
     # Implementation uses the Fermat Primality Test
     
     # If number is even, it's a composite number
 
-    if n == 2:
+    if number == 2 or number == 3:
         return True
 
     if n % 2 == 0:
         return False
 
     for i in range(k):
-        a = random.randint(1, n-1)
+        a = random.randint(1, number-1)
 
-        if pow(a, n-1) % n != 1:
+        if pow(a, number-1) % number != 1:
             return False
     return True
 
 
-def is_prime_fermat_2(n) -> bool:
-	if n == 2:
+def is_prime_fermat_2(number: int) -> bool:
+	if number == 2:
 		return True
-	if not n & 1:
+	if not number & 1:
 		return False
-	return pow(2, n-1, n) == 1
+	return pow(2, number-1, number) == 1
 
-def is_prime_miller(n, k=10) -> bool:
+def is_prime_miller(number: int, k=10) -> bool:
     #https://gist.github.com/bnlucas/5857478
-	if n == 2 or n == 3:
+	if number == 2 or number == 3:
 		return True
-	if not n & 1:
+	if not number & 1:
 		return False
 
-	def check(a, s, d, n):
-		x = pow(a, d, n)
+	def check(a, s, d, number) -> bool:
+		x = pow(a, d, number)
 		if x == 1:
 			return True
 		for i in range(s - 1):
-			if x == n - 1:
+			if x == number - 1:
 				return True
-			x = pow(x, 2, n)
-		return x == n - 1
+			x = pow(x, 2, number)
+		return x == number - 1
 
 	s = 0
-	d = n - 1
+	d = number - 1
 
 	while d % 2 == 0:
 		d >>= 1
 		s += 1
 
 	for i in range(k):
-		a = random.randrange(2, n - 1)
-		if not check(a, s, d, n):
+		a = random.randrange(2, number - 1)
+		if not check(a, s, d, number):
 			return False
 	return True
 
