@@ -40,32 +40,36 @@ print("broken_message", broken_message)
 
 
 graphPlot = graphPlot()
-message = "Primeiro eu queria cumprimentar os internautas. -Oi Internautas! Depois dizer que o meio ambiente é sem dúvida nenhuma uma ameaça ao desenvolvimento sustentável. E isso significa que é uma ameaça pro futuro do nosso planeta e dos nossos países. O desemprego beira 20%, ou seja, 1 em cada 4 portugueses."
+message = "Projeto e Análise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
 for i in range(1, 12):
     bits = i * 2
+    timeEncrypt = 0
+    timeBrutal = 0
+    average = 20
+    for m in range(1, average):
+        print(f"Executando com {bits} bits - Tentativa {m}")
 
-    print("Executando com %d bits" % bits)
-    rsa = Rsa()
-    rsa.set_bits(bits)
-    rsa.set_prime_method("miller")
-    p = rsa.generate_prime()
-    q = rsa.generate_prime(skip=p)
-    rsa.generate_keypair(p, q)
+        rsa = Rsa()
+        rsa.set_bits(bits)
+        rsa.set_prime_method("miller")
+        p = rsa.generate_prime()
+        q = rsa.generate_prime(skip=p)
+        rsa.generate_keypair(p, q)
 
-    codeValues = []
-    breakValues = []
+        codeValues, breakValues = [], []
 
-    start = time.time()
-    coded_message = rsa.encrypt(rsa.publicKey, message)
-    codeValues = ["code", bits, time.time() - start]
+        start = time.time()
+        coded_message = rsa.encrypt(rsa.publicKey, message)
+        timeEncrypt += time.time() - start
 
-    start = time.time()
-    broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
-    breakValues = ["break", bits, time.time() - start]
+        start = time.time()
+        broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
+        timeBrutal += time.time() - start
+
     print("broken_message", broken_message)
 
-    graphPlot.addValues(codeValues)
-    graphPlot.addValues(breakValues)
+    graphPlot.addValues(["code", bits, timeEncrypt / average])
+    graphPlot.addValues(["break", bits, timeBrutal / average])
 
 graphPlot.plot(rsa.primeMethod)
 
