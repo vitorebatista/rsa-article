@@ -23,9 +23,10 @@ from rsa import Rsa
 import time
 
 
-def rsa_benchmark(type="brutal", message="Hello World!", bits=24):
+def rsa_benchmark(type="brutal", message="Hello World!", bits=24) -> tuple:
     graph = graphPlot()
-
+    timesEncrypt = []
+    timesBrutal = []
     for i in range(1, bits//2):
         bits = i * 2
         timeEncrypt = 0
@@ -55,6 +56,9 @@ def rsa_benchmark(type="brutal", message="Hello World!", bits=24):
 
         graph.addValues(["code", bits, timeEncrypt / average])
         graph.addValues(["break", bits, timeBrutal / average])
+        timesEncrypt.append(timeBrutal / average)
+        timesBrutal.append(timeBrutal / average)
 
-    graph.plot(rsa.primeMethod)
+    # graph.plot(rsa.primeMethod)
+    return (timesEncrypt, timesBrutal)
 

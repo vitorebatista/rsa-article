@@ -22,7 +22,19 @@ from rsa_benchmark import rsa_benchmark
 from graph import graphPlot
 
 message = "Projeto e Análise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-rsa_benchmark(type='fermat', message=message, bits=8)
+brutalEncrypt, brutalBrutal = rsa_benchmark(type="brutal", message=message, bits=8)
+print(brutalEncrypt)
+print(brutalBrutal)
 
+fermatEncrypt, fermatBrutal = rsa_benchmark(type="fermat", message=message, bits=8)
+print(fermatEncrypt)
+print(fermatBrutal)
 
+millerEncrypt, millerBrutal = rsa_benchmark(type="miller", message=message, bits=8)
+print(millerEncrypt)
+print(millerBrutal)
+
+plot = {"brutal": brutalBrutal, "fermat": fermatBrutal, "miller": brutalBrutal}
+
+graphPlot.new_plot(info=plot)
 
