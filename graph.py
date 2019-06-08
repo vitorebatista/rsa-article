@@ -25,7 +25,7 @@ def plot(values: dict, title: str = ""):
         )
 
     plt.legend(loc=2, ncol=2)
-    plt.xticks(np.arange(2, size * 2, step = 2))
+    plt.xticks(np.arange(0, size * 2 + 1, step = 2))
     plt.xlabel("n bits")
     plt.ylabel("time spent (seconds)")
     plt.title(f"Criptografia RSA - {title.capitalize()}", loc="left")
