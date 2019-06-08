@@ -2,67 +2,33 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# you must run 'python3 -mpip install matplotlib'
+def plot(values: dict, title: str = ""):
+    # Ref:
+    # https://python-graph-gallery.com/124-spaghetti-plot/
+    plt.style.use("seaborn-darkgrid")
+    palette = plt.get_cmap("Set1")
+    size = len(values.popitem()[1]) + 1
+    values.update({"x": range(2, size* 2, 2 ) })
+    df = pd.DataFrame( values )
+    num = 0
 
+    for column in df.drop("x", axis=1):
+        num += 1
+        plt.plot(
+            df["x"],
+            df[column],
+            marker="",
+            color=palette(num),
+            linewidth=1,
+            alpha=0.9,
+            label=column,
+        )
 
-class graphPlot:
-    def __init__(self):
+    plt.legend(loc=2, ncol=2)
+    plt.xticks(np.arange(2, size * 2, step = 2))
+    plt.xlabel("n bits")
+    plt.ylabel("time spent (seconds)")
+    plt.title(f"Criptografia RSA - {title.capitalize()}", loc="left")
 
-        self.titles = []
-        self.xvalues = []
-        self.yvalues = []
-
-    def addValues(self, values: list):
-
-        name = values[0]
-        x = values[1]
-        y = values[2]
-
-        if self.titles.count(name) == 0:
-            self.titles.append(name)
-            self.xvalues.append([x])
-            self.yvalues.append([y])
-        else:
-            pos = self.titles.index(name)
-            self.xvalues[pos].append(x)
-            self.yvalues[pos].append(y)
-
-    def plot(self, title=""):
-        plt.style.use("seaborn-darkgrid")
-
-        for i in range(0, len(self.titles)):
-            plt.plot(self.xvalues[i], self.yvalues[i])
-
-        plt.xlabel("n bits")
-        plt.ylabel("time spent (seconds)")
-        plt.title("Criptografia RSA - %s" % title.capitalize())
-        plt.xticks(np.arange(8, 25, 8))
-        # plt.yscale('linear')
-        # plt.yscale('log')
-        plt.axis(option="scaled")
-        plt.grid(True)
-        plt.show()
-
-    @staticmethod
-    def new_plot(info):
-        #https://python-graph-gallery.com/123-highlight-a-line-in-line-plot/
-        plt.style.use("seaborn-darkgrid")
-        df=pd.DataFrame(info)
-        for column in df.drop('miller', axis=1):
-            plt.plot(df['miller'], df[column])
-        # Let's annotate the plot
-        num=0
-        '''
-        for i in df.size:
-            num+=1
-            name=list(df)[num]
-            if name != 'y5':
-                plt.text(10.2, i, name, horizontalalignment='left', size='small', color='grey')
-        '''
-        plt.xlabel("n bits")
-        plt.ylabel("time spent (seconds)")
-        plt.title("Criptografia RSA")
-
-        plt.show()
-
+    plt.show()
 

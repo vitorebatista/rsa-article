@@ -19,22 +19,23 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 
 
 from rsa_benchmark import rsa_benchmark
-from graph import graphPlot
+from graph import plot
 
 message = "Projeto e Análise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-brutalEncrypt, brutalBrutal = rsa_benchmark(type="brutal", message=message, bits=8)
-print(brutalEncrypt)
-print(brutalBrutal)
+brutalEncrypt, brutalBrutal = rsa_benchmark(type="brutal", message=message, bits=12)
+fermatEncrypt, fermatBrutal = rsa_benchmark(type="fermat", message=message, bits=12)
+millerEncrypt, millerBrutal = rsa_benchmark(type="miller", message=message, bits=12)
+plotBrutal = {
+    "brutal": brutalBrutal,
+    "fermat": fermatBrutal,
+    "miller": millerBrutal,
+}
+plotEncrypt = {
+    "brutal": brutalEncrypt,
+    "fermat": fermatEncrypt,
+    "miller": millerEncrypt,
+}
 
-fermatEncrypt, fermatBrutal = rsa_benchmark(type="fermat", message=message, bits=8)
-print(fermatEncrypt)
-print(fermatBrutal)
-
-millerEncrypt, millerBrutal = rsa_benchmark(type="miller", message=message, bits=8)
-print(millerEncrypt)
-print(millerBrutal)
-
-plot = {"brutal": brutalBrutal, "fermat": fermatBrutal, "miller": brutalBrutal}
-
-graphPlot.new_plot(info=plot)
+plot(values=plotBrutal, title="Força Bruta")
+plot(values=plotEncrypt, title="Encriptação")
 
