@@ -1,6 +1,6 @@
 from rsa import Rsa
 from files import read_message, read_public_key
-bit = 6
+bit = 24
 # Faz a leitura do arquivo de chave .pem
 publicKey = read_public_key(bit)
 

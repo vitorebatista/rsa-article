@@ -104,14 +104,13 @@ class Rsa:
         # a phi(n) que, pela equacao é igual a (p-1)*(q-1)
         phi = (p - 1) * (q - 1)
         # https://crypto.stackexchange.com/questions/3110/impacts-of-not-using-rsa-exponent-of-65537
-        e = 65537  # self.generate_prime(limit=phi)
+        e = self.generate_prime(limit=phi) # A recomendação é ser o número 65537
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
-        """
         while gcd(e, phi) != 1:
             print("Não é coprimo, tentando de novo. e, phi", e, phi)
             e = self.generate_prime(limit=phi)
-        """
+
         self.p, self.q, self.e, self.phi, self.n = p, q, e, phi, n
         self.publicKey = [e, n]
         self.d = find_inverse(self.e, self.phi)
