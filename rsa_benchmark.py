@@ -22,18 +22,20 @@ def rsa_benchmark(message: str ="Hello World!", bits=24, type="brutal") -> tuple
             p = rsa.generate_prime()
             q = rsa.generate_prime(skip=p)
             rsa.generate_keypair(p, q)
-            codeValues, breakValues = [], []
 
             coded_message = rsa.encrypt(rsa.publicKey, message)
             timeEncrypt.append(time.time() - start)
             
-            # Salva a chave púplica em um arquivo
+            # Salva a chave púplica em um arquivo .pem
             save_public_key(bit, rsa.publicKey)
             
-            # Salva a mensagem em um arquivo
+            # Salva a mensagem em um arquivo .msg
             save_message(bit, coded_message)
 
+            # Faz a leitura do arquivo de chave .pem
             publicKey = read_public_key(bit)
+
+            # Faz a leitura do arquivo da mensagem .msg
             coded_message = read_message(bit)
 
             start = time.time()
