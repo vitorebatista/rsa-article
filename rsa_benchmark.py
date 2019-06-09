@@ -2,19 +2,19 @@ from rsa import Rsa
 import time
 
 
-def rsa_benchmark(type="brutal", message="Hello World!", bits=24) -> tuple:
+def rsa_benchmark(message="Hello World!", bits=24, type="brutal") -> tuple:
     timesEncrypt = []
     timesBrutal = []
-    average = 2
-    for i in range(1, bits // 2):
-        bits = i * 2
+    average = 30
+    for i in range(1, bits // 2 + 1):
+        bit = i * 2
         timeEncrypt = 0
         timeBrutal = 0
         for m in range(1, average):
-            print(f"Executando com {bits} bits - Tentativa {m}")
+            print(f"Executando com {bit} bits - Tentativa {m}")
 
             rsa = Rsa()
-            rsa.set_bits(bits)
+            rsa.set_bits(bit)
             rsa.set_prime_method(type)
             p = rsa.generate_prime()
             q = rsa.generate_prime(skip=p)
