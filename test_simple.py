@@ -1,6 +1,5 @@
 
 from rsa import Rsa
-from graph import graphPlot
 import time
 
 def simple_test():
@@ -18,3 +17,6 @@ def simple_test():
 
     print(decoded_message)
     print("broken_message", broken_message)
+
+
+simple_test()
