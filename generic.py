@@ -136,8 +136,8 @@ def find_inverse(a: int, b: int) -> int:
 #http://marathoncode.blogspot.com/2012/08/algoritmo-pollards-rho.html
 #http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
 
-def brutal_force_pollard_rho(n: int, e: int) -> int:
-    a, b = 2, 2
+def brutal_force_pollard_rho(n: int, e: int, seed: int = 2) -> int:
+    a, b = seed, seed
     p = 1
 
     while (p == 1):
@@ -147,7 +147,7 @@ def brutal_force_pollard_rho(n: int, e: int) -> int:
         p = gcd( abs(a-b)%n, n)
 
     if p == n:
-        return brutal_force_pollard_rho(n, e)
+        return brutal_force_pollard_rho(n, e, seed+1) #brutal_force_sqrt(n, e,) #
     else:
         q = n // p
         phi = (p - 1) * (q - 1)
