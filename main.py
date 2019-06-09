@@ -5,9 +5,9 @@ que permita quebrar chaves um pouco maiores que o algoritmo de força bruta (e.
 
 É obrigatória a implementação das seguintes funções:
     - [ok] Geração das chaves pública e privadas,
-    - [ok] principalmente a verificação de primalidade de um número; --fermet
+    - [ok] principalmente a verificação de primalidade de um número;
     - [ok] Algoritmo de Euclides Estendido;
-    - [pendente] Função para criptografar e descriptografar dados de um arquivo; --Falta o arquivo
+    - [ok] Função para criptografar e descriptografar dados de um arquivo;
     - [ok] Algoritmo de força bruta para a fatoração da chave pública nos números primos que a geraram;
     - [ok] Heurística para fatoração de números primos.
 
