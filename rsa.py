@@ -17,16 +17,14 @@ from generic import (
     find_inverse,
     is_prime,
     is_prime_fermat,
-    is_prime_fermat_2,
     is_prime_miller,
-    is_prime_miller_2,
     gcd,
 )
 
 
 class Rsa:
     def __init__(self):
-        self.bits = 3
+        self.bits = 4
         self.primeMethod = "brute"
         self.p = 0  # primeiro numero primo
         self.q = 0  # segundo numero primo
@@ -51,14 +49,14 @@ class Rsa:
         a forma bruta, Fermat ou Miller
         """
         return (
-            is_prime_miller_2(n)
+            is_prime_miller(n)
             if self.primeMethod == "miller"
             else is_prime_fermat(n)
             if self.primeMethod == "fermat"
             else is_prime(n)
         )
 
-    def generate_prime(self, limit: int = 0, skip: int = 0) -> int:
+    def generate_prime(self, limit: int = 0, ignore: int = 0) -> int:
         # números primos são valores inteiros maiores que 1
         # divisíveis apenas por 1 e por si mesmos
 
@@ -67,10 +65,10 @@ class Rsa:
             # gera número aleatorio entre 2 e prime_number_limit
             number = random.randint(2 ** (self.bits - 1), limit - 1)
         else:
-            number = random.randint(2 ** (self.bits - 1), 2 ** (self.bits))
+            number = random.randint(2 ** (self.bits - 1), 2 ** (self.bits) -1)
 
         # se for par, soma 1 para ser ímpar (pares não são primos, exceto 2)
-        if (number % 2) == 0:
+        if (number != 2) and (number % 2) == 0:
             number += 1
 
         # enquanto não for primo, soma dois e tenta novamente
@@ -81,9 +79,9 @@ class Rsa:
                 number = random.randint(2 ** (self.bits - 1), limit - 1)
 
         # garante que p e q sejam números diferentes
-        if skip == number:
+        if ignore == number:
             print("p é igual, tentando de novo")
-            number = self.generate_prime(skip=skip)
+            number = self.generate_prime(ignore=ignore)
 
         return number
 
@@ -104,7 +102,7 @@ class Rsa:
         # a phi(n) que, pela equacao é igual a (p-1)*(q-1)
         phi = (p - 1) * (q - 1)
         # https://crypto.stackexchange.com/questions/3110/impacts-of-not-using-rsa-exponent-of-65537
-        e = 65537  # self.generate_prime(limit=phi)
+        e = 65537 # self.generate_prime(limit=phi)
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
         """

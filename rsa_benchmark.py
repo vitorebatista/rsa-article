@@ -3,12 +3,15 @@ from rsa import Rsa
 from files import read_public_key, read_message, save_message, save_public_key
 
 
-def rsa_benchmark(message: str ="Hello World!", bits=24, type="brutal") -> tuple:
+def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type="brutal") -> tuple:
     timesEncrypt = []
-    timesBrutal = []
+    timesBreak = []
+    bitSizes = []
+
     average = 15
-    for i in range(1, bits // 2 + 1):
-        bit = i * 2
+    for i in range(2, bits_limit // 2 + 1):
+        #comeca com 4 bits pq é o mínimo para phi suportar abela ASCII
+        bit = i * 2 #tamanho máximo (multiplica n bits por n bits)
         timeEncrypt = []
         timeBrutal = []
         
@@ -20,7 +23,7 @@ def rsa_benchmark(message: str ="Hello World!", bits=24, type="brutal") -> tuple
             rsa.set_bits(bit)
             rsa.set_prime_method(type)
             p = rsa.generate_prime()
-            q = rsa.generate_prime(skip=p)
+            q = rsa.generate_prime(ignore=p)
             rsa.generate_keypair(p, q)
 
             coded_message = rsa.encrypt(rsa.publicKey, message)
@@ -52,7 +55,9 @@ def rsa_benchmark(message: str ="Hello World!", bits=24, type="brutal") -> tuple
         del timeBrutal[0]
         del timeBrutal[-1]
         timesEncrypt.append(sum(timeEncrypt) / (average - 2))
-        timesBrutal.append(sum(timeBrutal) / (average - 2))
+        timesBreak.append(sum(timeBrutal) / (average - 2))
 
-    return (timesEncrypt, timesBrutal)
+        bitSizes.append(bit)
+
+    return (timesEncrypt, timesBreak, bitSizes)
 
