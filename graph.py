@@ -28,7 +28,7 @@ def plot(values: dict, title: str = "", bits: int = 0) -> None:
     plt.xticks(np.arange(0, size * 2 + 1, step = 2))
     plt.xlabel("n bits")
     plt.ylabel("time spent (seconds)")
-    plt.title(f"Criptografia RSA - {title.capitalize()} de {bits}", loc="left")
-
+    plt.title(f"RSA - {title.capitalize()} {bits} bits", loc="left")
+    plt.savefig(f'./images/{bits}_{title.replace(" ", "")}')
     plt.show()
 
