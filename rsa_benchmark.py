@@ -49,9 +49,8 @@ def rsa_benchmark(message: str ="Hello World!", bits=24, type="brutal") -> tuple
         timeBrutal.sort()
         del timeBrutal[0]
         del timeBrutal[-1]
-        average -= 2
-        timesEncrypt.append(sum(timeEncrypt) / average)
-        timesBrutal.append(sum(timeBrutal) / average)
+        timesEncrypt.append(sum(timeEncrypt) / (average - 2))
+        timesBrutal.append(sum(timeBrutal) / (average - 2))
 
     return (timesEncrypt, timesBrutal)
 

@@ -21,7 +21,7 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 from rsa_benchmark import rsa_benchmark
 from graph import plot
 
-bits=12
+bits=24
 message = "Projeto e Análise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
 brutalEncrypt, brutalBrutal = rsa_benchmark(message, bits, type="brutal",)
 fermatEncrypt, fermatBrutal = rsa_benchmark(message, bits, type="fermat")
