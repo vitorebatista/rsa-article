@@ -16,7 +16,7 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type="brutal") ->
         timeBrutal = []
         
         for m in range(0, average):
-            print(f"Executando com {bit} bits - Tentativa {m}")
+            # print(f"Executando com {bit} bits - Tentativa {m}")
             start = time.time()
 
             rsa = Rsa()

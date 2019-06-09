@@ -25,7 +25,7 @@ def plot(valuesY: dict, valuesX, title: str = "", bits: int = 0) -> None:
         )
 
     plt.legend(loc=2, ncol=2)
-    plt.xticks(np.arange(0, size * 2 + 1, step = 2))
+    plt.xticks(np.arange(4, size * 2 + 1, step = 2))
     plt.xlabel("n bits")
     plt.ylabel("time spent (seconds)")
     plt.title(f"RSA - {title.capitalize()} {bits} bits", loc="left")
