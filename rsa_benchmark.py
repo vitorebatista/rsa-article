@@ -45,7 +45,7 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type="brutal") ->
             broken_message = rsa.brutalForce(coded_message, publicKey)
             timeBrutal.append(time.time() - start)
 
-        print("broken_message", broken_message)
+        print(f"{bit} bits - broken_message", broken_message)
         # Ordena a lista e remove o primeiro menor item e o último com o maior número
         timeEncrypt.sort()
         del timeEncrypt[0]
@@ -57,7 +57,5 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type="brutal") ->
         timesEncrypt.append(sum(timeEncrypt) / (average - 2))
         timesBreak.append(sum(timeBrutal) / (average - 2))
 
-        bitSizes.append(bit)
-
-    return (timesEncrypt, timesBreak, bitSizes)
+    return (timesEncrypt, timesBreak)
 

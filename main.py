@@ -21,11 +21,11 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 from rsa_benchmark import rsa_benchmark
 from graph import plot
 
-bits_limit=16
+bits_limit=24
 message = "Projeto e Analise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-brutalEncrypt, brutalBreak, bitSizes = rsa_benchmark(message, bits_limit, type="brutal",)
-fermatEncrypt, fermatBreak, bitSizes = rsa_benchmark(message, bits_limit, type="fermat")
-millerEncrypt, millerBreak, bitSizes = rsa_benchmark(message, bits_limit, type="miller")
+brutalEncrypt, brutalBreak = rsa_benchmark(message, bits_limit, type="brutal",)
+fermatEncrypt, fermatBreak = rsa_benchmark(message, bits_limit, type="fermat")
+millerEncrypt, millerBreak = rsa_benchmark(message, bits_limit, type="miller")
 plotBreak = {
     "brutal": brutalBreak,
     "fermat": fermatBreak,
@@ -37,6 +37,6 @@ plotEncrypt = {
     "miller": millerEncrypt,
 }
 
-plot(valuesY=plotBreak, valuesX=bitSizes, title="Brute Force", bits=bits_limit)
-plot(valuesY=plotEncrypt, valuesX=bitSizes, title="Encrypt", bits=bits_limit)
+plot(valuesY=plotBreak, title="Brute Force", bits=bits_limit)
+plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
 
