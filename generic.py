@@ -1,5 +1,5 @@
 import random
-
+import math
 
 def is_prime(number: int) -> bool:
     """
@@ -12,7 +12,7 @@ def is_prime(number: int) -> bool:
         return False
 
     # tenta dividir pelos números a partir de 3 até sua metade, andando de 2 em 2
-    for n in range(3, int(number / 2) + 2, 2):
+    for n in range(3, int(math.sqrt(number))+1,1):
         if (number % n) == 0:
             return False
 

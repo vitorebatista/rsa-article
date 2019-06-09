@@ -23,7 +23,7 @@ def print_diff(a1,a2):
     return diff
 
 
-amout_test = 100000
+amout_test = 10000000
 p0 = getPrimeList(amout_test)
 p1, p2, p3, = [], [], []
 
