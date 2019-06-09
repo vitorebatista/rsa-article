@@ -146,14 +146,17 @@ class Rsa:
         return decrypted_message
 
     @staticmethod
-    def brutalForce(coded_message: str, pk: list) -> str:
+    def brutalForce(coded_message: str, pk: list, method="brute") -> str:
 
         decrypted_message = ""
         e = pk[0]
         n = pk[1]
-        d = brutal_force_pollard_rho(n, e)
-        # d2 = brutal_force_sqrt(n, e)
-            
+
+        if method == "pollard":
+            d = brutal_force_pollard_rho(n, e)
+        else:
+            d = brutal_force_sqrt(n, e)
+        
         for c in coded_message:
             decoded_letter = pow(c, d, n)
             decoded_letter = str(chr(decoded_letter))

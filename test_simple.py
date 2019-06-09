@@ -9,7 +9,7 @@ def simple_test():
 
     q = 17
     p = 41
-    rsa.set_bits(2)
+    rsa.set_bits(4)
     rsa.generate_keypair(p, q)
     coded_message = rsa.encrypt(rsa.publicKey, "This is a message 1234 *&6^'/q@1")
     decoded_message = rsa.decrypt(coded_message)
