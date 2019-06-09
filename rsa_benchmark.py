@@ -5,13 +5,15 @@ import time
 def rsa_benchmark(message="Hello World!", bits=24, type="brutal") -> tuple:
     timesEncrypt = []
     timesBrutal = []
-    average = 30
+    average = 50
     for i in range(1, bits // 2 + 1):
         bit = i * 2
-        timeEncrypt = 0
-        timeBrutal = 0
-        for m in range(1, average):
+        timeEncrypt = []
+        timeBrutal = []
+        # encryptFile= open(f"{bits}_encrypt.txt","w+")
+        for m in range(0, average):
             print(f"Executando com {bit} bits - Tentativa {m}")
+            start = time.time()
 
             rsa = Rsa()
             rsa.set_bits(bit)
@@ -19,21 +21,28 @@ def rsa_benchmark(message="Hello World!", bits=24, type="brutal") -> tuple:
             p = rsa.generate_prime()
             q = rsa.generate_prime(skip=p)
             rsa.generate_keypair(p, q)
-
             codeValues, breakValues = [], []
 
-            start = time.time()
             coded_message = rsa.encrypt(rsa.publicKey, message)
-            timeEncrypt += time.time() - start
+            timeEncrypt.append(time.time() - start)
+            # encryptFile.write(message)
 
             start = time.time()
             broken_message = rsa.brutalForce(coded_message, rsa.publicKey)
-            timeBrutal += time.time() - start
+            timeBrutal.append(time.time() - start)
 
         print("broken_message", broken_message)
+        # Ordena a lista e remove o primeiro menor item e o último com o maior número
+        timeEncrypt.sort()
+        del timeEncrypt[0]
+        del timeEncrypt[-1]
 
-        timesEncrypt.append(timeEncrypt / average)
-        timesBrutal.append(timeBrutal / average)
+        timeBrutal.sort()
+        del timeBrutal[0]
+        del timeBrutal[-1]
+        average -= 2
+        timesEncrypt.append(sum(timeEncrypt) / average)
+        timesBrutal.append(sum(timeBrutal) / average)
 
     return (timesEncrypt, timesBrutal)
 
