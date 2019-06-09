@@ -37,6 +37,6 @@ plotEncrypt = {
     "miller": millerEncrypt,
 }
 
-plot(values=plotBrutal, title="Força Bruta", bits=bits)
-plot(values=plotEncrypt, title="Encriptação", bits=bits)
+plot(values=plotBrutal, title="Brute Force", bits=bits)
+plot(values=plotEncrypt, title="Encrypt", bits=bits)
 
