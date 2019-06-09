@@ -125,7 +125,7 @@ def xgcd(a: int, b: int) -> list:
 
 # Find the multiplicative inverse of x (mod y)
 # see: http://en.wikipedia.org/wiki/Modular_multiplicative_inverse
-def find_inverse(a: int, b: int):
+def find_inverse(a: int, b: int) -> int:
     inv = xgcd(a, b)[0]
     if inv < 1:
         inv += b  # Nós queremos apenas números positivos
@@ -136,18 +136,41 @@ def find_inverse(a: int, b: int):
 #http://marathoncode.blogspot.com/2012/08/algoritmo-pollards-rho.html
 #http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
 
-def pollard_rho(n):
+def brutal_force_pollard_rho(n: int, e: int) -> int:
     a, b = 2, 2
-    d = 1
+    p = 1
 
-    while (d == 1):
+    while (p == 1):
         a = ( pow(a,2) + 1 ) % n
         b = ( pow(b,2) + 1 )
         b = ( pow(b,2) + 1 ) % n
-        d = gcd( abs(a-b)%n, n)
+        p = gcd( abs(a-b)%n, n)
 
-        if d == n:
-            return None
-        else:
-            return d
+    if p == n:
+        return brutal_force_pollard_rho(n, e)
+    else:
+        q = n // p
+        phi = (p - 1) * (q - 1)
+        d = find_inverse(e, phi)
+        return d
+
+def brutal_force_sqrt(n: int, e: int) -> int:
+    # Realiza a quebra com base na raiz quadrada de n
+    p = 1
+    q = 1
+
+    nSqrt = math.sqrt(n)
+    nControl = 3
+    # dado n tenta descobrir p e q
+    while nControl <= nSqrt:
+        # print("Tentativa %d do BrutalForce" % nControl)
+        if (n % nControl) == 0:
+            p = n // nControl
+            q = nControl
+            break
+        nControl += 2
+
+    phi = (p - 1) * (q - 1)
+    d = find_inverse(e, phi)
+    return d
 
