@@ -3,7 +3,16 @@ from rsa import Rsa
 from files import read_public_key, read_message, save_message, save_public_key
 
 
-def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type="brutal") -> tuple:
+def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type: str ="prime", method: str ="brute") -> tuple:
+    '''
+    Função para executar 15x os métodos de criptografia para gerar uma média de tempo
+    de execução e apresentar um gráfico comparativo.
+
+    message - String com a mensagem a ser criptografada. Default: "Hello World!"
+    bits_limit - Número de bits considerado no processo de criptografia. Default: 24
+    type - Método de análise de número primo (prime, miller ou fermat). Default: prime
+    method - Método de força bruta (brute ou pollard). Default: brute
+    '''
     timesEncrypt = []
     timesBreak = []
     bitSizes = []
@@ -22,6 +31,7 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type="brutal") ->
             rsa = Rsa()
             rsa.set_bits(bit)
             rsa.set_prime_method(type)
+            rsa.set_force_brute_method(method)
             p = rsa.generate_prime()
             q = rsa.generate_prime(ignore=p)
             rsa.generate_keypair(p, q)

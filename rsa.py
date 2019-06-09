@@ -27,7 +27,8 @@ from generic import (
 class Rsa:
     def __init__(self):
         self.bits = 4
-        self.primeMethod = "brute"
+        self.primeMethod = "prime"
+        self.forceBruteMethod = "brute"
         self.p = 0  # primeiro numero primo
         self.q = 0  # segundo numero primo
         self.n = 0  # representa o tamanho do conjunto (p*q)
@@ -39,11 +40,12 @@ class Rsa:
 
     def set_bits(self, bits) -> None:
         self.bits = bits
-        return
 
-    def set_prime_method(self, primeMethod="brute") -> None:
+    def set_prime_method(self, primeMethod="prime") -> None:
         self.primeMethod = primeMethod
-        return
+    
+    def set_force_brute_method(self, forceBruteMethod) -> None:
+        self.forceBruteMethod = forceBruteMethod
 
     def is_prime(self, n: int) -> bool:
         """
@@ -67,7 +69,7 @@ class Rsa:
             # gera número aleatorio entre 2 e prime_number_limit
             number = random.randint(2 ** (self.bits - 1), limit - 1)
         else:
-            number = random.randint(2 ** (self.bits - 1), 2 ** (self.bits) -1)
+            number = random.randint(2 ** (self.bits - 1), 2 ** (self.bits) - 1)
 
         # se for par, soma 1 para ser ímpar (pares não são primos, exceto 2)
         if (number != 2) and (number % 2) == 0:
@@ -104,7 +106,7 @@ class Rsa:
         # a phi(n) que, pela equacao é igual a (p-1)*(q-1)
         phi = (p - 1) * (q - 1)
         # https://crypto.stackexchange.com/questions/3110/impacts-of-not-using-rsa-exponent-of-65537
-        e = self.generate_prime(limit=phi) # Deveria ser 65537 pelo padrão
+        e = self.generate_prime(limit=phi)  # Deveria ser 65537 pelo padrão
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
         while gcd(e, phi) != 1:
@@ -145,18 +147,17 @@ class Rsa:
 
         return decrypted_message
 
-    @staticmethod
-    def brutalForce(coded_message: str, pk: list, method="brute") -> str:
+    def brutalForce(self, coded_message: str, pk: list) -> str:
 
         decrypted_message = ""
         e = pk[0]
         n = pk[1]
 
-        if method == "pollard":
+        if self.forceBruteMethod == "pollard":
             d = brutal_force_pollard_rho(n, e)
         else:
             d = brutal_force_sqrt(n, e)
-        
+
         for c in coded_message:
             decoded_letter = pow(c, d, n)
             decoded_letter = str(chr(decoded_letter))
