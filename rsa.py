@@ -23,9 +23,6 @@ from generic import (
     gcd,
 )
 
-# TODO: temos que alterar para usar um teste probabilistico ao invés de fatoracao por inteiros (prof. pediu)
-prime_number_limit = 1000
-
 
 class Rsa:
     def __init__(self):
@@ -49,10 +46,10 @@ class Rsa:
         return
 
     def is_prime(self, n: int) -> bool:
-        '''
+        """
         Função para executar a função de verificação de número primo, utilizando
         a forma bruta, Fermat ou Miller
-        '''
+        """
         return (
             is_prime_miller_2(n)
             if self.primeMethod == "miller"
@@ -65,9 +62,6 @@ class Rsa:
         # números primos são valores inteiros maiores que 1
         # divisíveis apenas por 1 e por si mesmos
 
-        # define maior limite entre prime_number_limit e parametro limit
-        # limit = prime_number_limit if (limit > prime_number_limit) else limit
-        # TODO Verificar se o uso do número de bits é considerado para o tamanho do primo
         # https://security.stackexchange.com/a/37910
         if limit > 0:
             # gera número aleatorio entre 2 e prime_number_limit
@@ -81,7 +75,6 @@ class Rsa:
 
         # enquanto não for primo, soma dois e tenta novamente
         while not self.is_prime(number):
-            # TODO verificar o motivo de +2, pq pode ser maior que o limit ocorrendo erro
             print("number", number, limit)
             number += 2
             if limit > 0 & number > limit:
@@ -99,7 +92,6 @@ class Rsa:
         p - número primo
         q - outro número primo
         """
-        # Podemos testar com fermat e miller aqui
         if not (self.is_prime(p) and self.is_prime(q)):
             raise ValueError("p e q devem ser primos para gerar a chave.")
         elif p == q:
@@ -111,13 +103,15 @@ class Rsa:
         # 3. selecione um inteiro ímpar pequeno 'e' tal que ele seja primo em relacao
         # a phi(n) que, pela equacao é igual a (p-1)*(q-1)
         phi = (p - 1) * (q - 1)
-        e = self.generate_prime(limit=phi)
+        # https://crypto.stackexchange.com/questions/3110/impacts-of-not-using-rsa-exponent-of-65537
+        e = 65537  # self.generate_prime(limit=phi)
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
+        """
         while gcd(e, phi) != 1:
             print("Não é coprimo, tentando de novo. e, phi", e, phi)
             e = self.generate_prime(limit=phi)
-
+        """
         self.p, self.q, self.e, self.phi, self.n = p, q, e, phi, n
         self.publicKey = [e, n]
         self.d = find_inverse(self.e, self.phi)
