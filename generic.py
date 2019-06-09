@@ -1,4 +1,5 @@
 import random
+import math
 
 
 def is_prime(number: int) -> bool:
@@ -12,7 +13,7 @@ def is_prime(number: int) -> bool:
         return False
 
     # tenta dividir pelos números a partir de 3 até sua metade, andando de 2 em 2
-    for n in range(3, int(number / 2) + 2, 2):
+    for n in range(3, int(math.sqrt(number))+1,1):
         if (number % n) == 0:
             return False
 
@@ -39,47 +40,7 @@ def is_prime_fermat(number: int, k=20) -> bool:
             return False
     return True
 
-
-def is_prime_fermat_2(number: int) -> bool:
-    if number == 2:
-        return True
-    if not number & 1:
-        return False
-    return pow(2, number - 1, number) == 1
-
-def is_prime_miller(number: int, k=20) -> bool:
-    # https://gist.github.com/bnlucas/5857478
-    if number == 2 or number == 3:
-        return True
-    if not number & 1:
-        return False
-
-    def check(a, s, d, number) -> bool:
-        x = pow(a, d, number)
-        if x == 1:
-            return True
-        for i in range(s - 1):
-            if x == number - 1:
-                return True
-            x = pow(x, 2, number)
-        return x == number - 1
-
-    s = 0
-    d = number - 1
-
-    while d % 2 == 0:
-        d >>= 1
-        s += 1
-
-    for i in range(k):
-        a = random.randrange(2, number - 1)
-        if not check(a, s, d, number):
-            return False
-    return True
-
-
-
-def is_prime_miller_2(num: int):
+def is_prime_miller(num: int):
     
     def miller(num: int):
         s = num - 1
@@ -169,3 +130,24 @@ def find_inverse(a: int, b: int):
     if inv < 1:
         inv += b  # Nós queremos apenas números positivos
     return inv
+
+    
+#https://gist.github.com/thomdixon/dd1e280681f16535fbf1
+#http://marathoncode.blogspot.com/2012/08/algoritmo-pollards-rho.html
+#http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
+
+def pollard_rho(n):
+    a, b = 2, 2
+    d = 1
+
+    while (d == 1):
+        a = ( pow(a,2) + 1 ) % n
+        b = ( pow(b,2) + 1 )
+        b = ( pow(b,2) + 1 ) % n
+        d = gcd( abs(a-b)%n, n)
+
+        if d == n:
+            return None
+        else:
+            return d
+

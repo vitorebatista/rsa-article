@@ -21,15 +21,15 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 from rsa_benchmark import rsa_benchmark
 from graph import plot
 
-bits=24
-message = "Projeto e Análise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-brutalEncrypt, brutalBrutal = rsa_benchmark(message, bits, type="brutal",)
-fermatEncrypt, fermatBrutal = rsa_benchmark(message, bits, type="fermat")
-millerEncrypt, millerBrutal = rsa_benchmark(message, bits, type="miller")
-plotBrutal = {
-    "brutal": brutalBrutal,
-    "fermat": fermatBrutal,
-    "miller": millerBrutal,
+bits_limit=16
+message = "Projeto e Analise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
+brutalEncrypt, brutalBreak, bitSizes = rsa_benchmark(message, bits_limit, type="brutal",)
+fermatEncrypt, fermatBreak, bitSizes = rsa_benchmark(message, bits_limit, type="fermat")
+millerEncrypt, millerBreak, bitSizes = rsa_benchmark(message, bits_limit, type="miller")
+plotBreak = {
+    "brutal": brutalBreak,
+    "fermat": fermatBreak,
+    "miller": millerBreak,
 }
 plotEncrypt = {
     "brutal": brutalEncrypt,
@@ -37,6 +37,6 @@ plotEncrypt = {
     "miller": millerEncrypt,
 }
 
-plot(values=plotBrutal, title="Brute Force", bits=bits)
-plot(values=plotEncrypt, title="Encrypt", bits=bits)
+plot(valuesY=plotBreak, valuesX=bitSizes, title="Brute Force", bits=bits_limit)
+plot(valuesY=plotEncrypt, valuesX=bitSizes, title="Encrypt", bits=bits_limit)
 

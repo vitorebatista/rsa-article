@@ -1,4 +1,4 @@
-from generic import is_prime, is_prime_fermat, is_prime_fermat_2, is_prime_miller, is_prime_miller_2
+from generic import is_prime, is_prime_fermat, is_prime_miller
 from time import time as t
 import numpy as np
 
@@ -23,9 +23,9 @@ def print_diff(a1,a2):
     return diff
 
 
-amout_test = 100000
+amout_test = 10000000
 p0 = getPrimeList(amout_test)
-p1, p2, p3, p4, p5 = [], [], [], [], []
+p1, p2, p3, = [], [], []
 
 
 start = t()
@@ -34,32 +34,15 @@ for i in range(2,amout_test):
 print("is_prime", t()-start) # is_prime 0.17274880409240723
 print("-> OK") if np.array_equal(p0,p1) else print("-> Problema",print_diff(p0,p1))
 
-
 start = t()
 for i in range(2,amout_test):
     p2.append(i) if is_prime_fermat(i) else None
 print("is_prime_fermat", t()-start) # is_prime_fermat 0.2040262222290039
 print("-> OK") if np.array_equal(p0,p2) else print("-> Problema",print_diff(p0,p2))
 
-
 start = t()
 for i in range(2,amout_test):
-    p3.append(i) if is_prime_fermat_2(i) else None
-print("is_prime_fermat_2", t()-start) # is_prime_fermat_2 0.02365899085998535
-print("-> OK") if np.array_equal(p0,p3) else print("-> Problema",print_diff(p0,p3))
-
-
-start = t()
-for i in range(2,amout_test):
-    p4.append(i) if is_prime_miller(i) else None
+    p3.append(i) if is_prime_miller(i) else None
 print("is_prime_miller", t()-start) # is_prime_miller 0.20272493362426758
-print("-> OK") if np.array_equal(p0,p4) else print("-> Problema",print_diff(p0,p4))
-
-
-
-start = t()
-for i in range(2,amout_test):
-    p5.append(i) if is_prime_miller_2(i) else None
-print("is_prime_miller_2", t()-start) # is_prime_miller_2 0.20272493362426758
-print("-> OK") if np.array_equal(p0,p5) else print("-> Problema",print_diff(p0,p4))
+print("-> OK") if np.array_equal(p0,p3) else print("-> Problema",print_diff(p0,p3))
 
