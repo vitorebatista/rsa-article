@@ -1,6 +1,7 @@
 import random
 import math
 
+
 def is_prime(number: int) -> bool:
     """
     Test to see if a number is prime.
@@ -129,3 +130,24 @@ def find_inverse(a: int, b: int):
     if inv < 1:
         inv += b  # Nós queremos apenas números positivos
     return inv
+
+    
+#https://gist.github.com/thomdixon/dd1e280681f16535fbf1
+#http://marathoncode.blogspot.com/2012/08/algoritmo-pollards-rho.html
+#http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
+
+def pollard_rho(n):
+    a, b = 2, 2
+    d = 1
+
+    while (d == 1):
+        a = ( pow(a,2) + 1 ) % n
+        b = ( pow(b,2) + 1 )
+        b = ( pow(b,2) + 1 ) % n
+        d = gcd( abs(a-b)%n, n)
+
+        if d == n:
+            return None
+        else:
+            return d
+
