@@ -32,7 +32,7 @@ def read_public_key(bits: int) -> list:
     encryptFile.readline()
     line = encryptFile.readline()
     # publicKey=publicKey.replace('\n', '')
-    lineDecode = base64.b64decode(line.encode())
+    lineDecode = base64.b64decode(line.encode()) #retorna array de bytes e converte para base 64
     publicKey = list(map(int, lineDecode.decode().split(",")))
     encryptFile.close()
     return publicKey
