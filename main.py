@@ -38,7 +38,7 @@ def call_pollard(message, bits_limit):
     }
 
     plot(valuesY=plotBreak, title="Pollard Rho", bits=bits_limit)
-    # plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
+    plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
 
 def call_brute(message, bits_limit):
     primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="brute")
@@ -56,10 +56,10 @@ def call_brute(message, bits_limit):
     }
 
     plot(valuesY=plotBreak, title="Brute Force", bits=bits_limit)
-    # plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
+    plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
 
 
 bits_limit = 32
 message = "Projeto e Analise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-# call_pollard(message, bits_limit)
+call_pollard(message, bits_limit)
 call_brute(message, bits_limit)
