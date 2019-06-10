@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 def plot(valuesY: dict, title: str = "", bits: int = 0) -> None:
+    plt.figure()
     # Ref:
     # https://python-graph-gallery.com/124-spaghetti-plot/
     plt.style.use("seaborn-darkgrid")
