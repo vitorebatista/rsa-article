@@ -16,13 +16,13 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
     '''
     timesEncrypt = []
     timesBreak = []
-
+    fileName = f"./files/{bits_limit}_{type}_{method}.time"
+    fileTime = open(fileName, "w+")
     for i in range(2, bits_limit // 2 + 1):
         #comeca com 4 bits pq é o mínimo para phi suportar abela ASCII
         bit = i * 2 #tamanho máximo (multiplica n bits por n bits)
         timeEncrypt = []
-        timeBrutal = []
-        
+        timeBreak = []
         average = timesAverage
         for m in range(0, timesAverage):
             print(f"Executando com {bit} bits type={type} method={method} - Tentativa {m}")
@@ -53,7 +53,8 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
 
             start = time.time()
             broken_message = rsa.brutalForce(coded_message, publicKey)
-            timeBrutal.append(time.time() - start)
+            timeBreak.append(time.time() - start)
+            print(time.time() - start)
 
         print(f"{bit} bits - broken_message", broken_message)
         if(timesAverage > 2):
@@ -63,11 +64,14 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
             del timeEncrypt[0]
             del timeEncrypt[-1]
 
-            timeBrutal.sort()
-            del timeBrutal[0]
-            del timeBrutal[-1]
+            timeBreak.sort()
+            del timeBreak[0]
+            del timeBreak[-1]
         timesEncrypt.append(sum(timeEncrypt) / average)
-        timesBreak.append(sum(timeBrutal) / average)
+        timesBreak.append(sum(timeBreak) / average)
+        fileTime
+        fileTime.write(f"{bit}\t{sum(timeBreak) / average}\n")
+    fileTime.close()
 
     return (timesEncrypt, timesBreak)
 

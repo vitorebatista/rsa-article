@@ -22,7 +22,7 @@ from rsa_benchmark import rsa_benchmark
 from graph import plot
 
 def call_pollard(message, bits_limit):
-    timesAverage = 1
+    timesAverage = 10
     primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="pollard", timesAverage=timesAverage)
     fermatEncrypt, fermatBreak = rsa_benchmark(message, bits_limit, type="fermat", method="pollard", timesAverage=timesAverage)
     millerEncrypt, millerBreak = rsa_benchmark(message, bits_limit, type="miller", method="pollard", timesAverage=timesAverage)
@@ -61,5 +61,5 @@ def call_brute(message, bits_limit):
 
 bits_limit = 32
 message = "Projeto e Analise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-call_pollard(message, bits_limit)
-# call_brute(message, bits_limit)
+# call_pollard(message, bits_limit)
+call_brute(message, bits_limit)

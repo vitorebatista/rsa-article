@@ -7,7 +7,7 @@ def plot(valuesY: dict, title: str = "", bits: int = 0) -> None:
     # https://python-graph-gallery.com/124-spaghetti-plot/
     plt.style.use("seaborn-darkgrid")
     palette = plt.get_cmap("Set1")
-    size = len(valuesY['prime']) + 1
+    size = len(valuesY['fermat']) + 1
     valuesY.update( {"x": range(4, size* 2 + 2, 2 ) })
     df = pd.DataFrame( valuesY )
     num = 0
@@ -30,5 +30,5 @@ def plot(valuesY: dict, title: str = "", bits: int = 0) -> None:
     plt.ylabel("time spent (seconds)")
     plt.title(f"RSA - {title} {bits} bits", loc="left")
     plt.savefig(f'./images/{bits}_{title.replace(" ", "")}')
-    plt.show()
+    # plt.show()
 
