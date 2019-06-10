@@ -8,7 +8,7 @@ def save_public_key(bits: int, key: list):
     encryptFile.seek(0), encryptFile.truncate()
     encryptFile.write(f"-----BEGIN PUBLIC KEY-----\n")
     unencoded = ",".join(map(str, key))
-    encoded = base64.b64encode(unencoded.encode())
+    encoded = base64.b64encode(unencoded.encode()) #retorna array de bytes e converte para base 64
     encryptFile.write(encoded.decode())
     encryptFile.write("\n-----END PUBLIC KEY-----")
     encryptFile.close()
@@ -20,7 +20,7 @@ def save_message(bits: int, message):
     encryptFile = open(f"{fileName}.msg", "w+")
     encryptFile.seek(0), encryptFile.truncate()
     unencoded = ",".join(map(str, message))
-    encoded = base64.b64encode(unencoded.encode())
+    encoded = base64.b64encode(unencoded.encode()) #retorna array de bytes e converte para base 64
     encryptFile.write(encoded.decode())
     encryptFile.close()
 

@@ -4,7 +4,8 @@ import math
 
 def is_prime(number: int) -> bool:
     """
-    Test to see if a number is prime.
+    Testa se um número é primo, força bruta (tentativa por tentativa).
+    number - numero a ser verificado
     """
     if number == 2 or number == 3:
         return True
@@ -21,11 +22,12 @@ def is_prime(number: int) -> bool:
 
 
 def is_prime_fermat(number: int, k=20) -> bool:
+    """
+    Testa se um número é primo utilizando o teste de primalidade de Fermat
+    number - numero a ser verificado
+    """
     # https://gist.github.com/Ayrx/5884802
     # Implementation uses the Fermat Primality Test
-
-    # If number is even, it's a composite number
-
     if number == 2 or number == 3:
         return True
 
@@ -40,8 +42,12 @@ def is_prime_fermat(number: int, k=20) -> bool:
             return False
     return True
 
+
 def is_prime_miller(num: int):
-    
+    """
+    Testa se um número é primo utilizando o teste de primalidade de Miller-Rabin
+    num - numero a ser verificado
+    """
     def miller(num: int):
         s = num - 1
         t = 0
@@ -92,7 +98,9 @@ def is_prime_miller(num: int):
 
 def gcd(a: int, b: int) -> int:
     """
-    Greatest common divisor
+    Maximo Divisor Comum, ou Greatest Common Divisor, entre a e b.
+    a - numero
+    b - numero
     """
     # o algoritmo de Euclides recebe dois valores para os quais se deseja calcular o
     # maximo divisor comum (maior número que é divisível pelos dois valores) e realiza
@@ -114,7 +122,11 @@ def gcd(a: int, b: int) -> int:
 
 
 def xgcd(a: int, b: int) -> list:
-
+    """
+    Algoritmo de Euclides Estendido, para encontrar o inverso multiplicativo modular.
+    a - numero
+    b - numero
+    """
     if b == 0:
         return [1, 0, a]
     else:
@@ -126,17 +138,28 @@ def xgcd(a: int, b: int) -> list:
 # Find the multiplicative inverse of x (mod y)
 # see: http://en.wikipedia.org/wiki/Modular_multiplicative_inverse
 def find_inverse(a: int, b: int) -> int:
+    """
+    Função que utiliza do Algoritmo de Euclides Estendido para encontrar
+    o inverso multiplicativo modular entre a e b.
+    a - numero
+    b - numero
+    """
     inv = xgcd(a, b)[0]
     if inv < 1:
         inv += b  # Nós queremos apenas números positivos
     return inv
 
-    
 #https://gist.github.com/thomdixon/dd1e280681f16535fbf1
 #http://marathoncode.blogspot.com/2012/08/algoritmo-pollards-rho.html
 #http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
 
 def brutal_force_pollard_rho(n: int, e: int, seed: int = 2) -> int:
+    """
+    Algoritmo de Pollard-Rho para realizar a quebra de chave na criptografia RSA.
+    n - n da chave pública
+    e - e da chave pública
+    seed - valor base para executar o ciclo de testes
+    """
     a, b = seed, seed
     p = 1
 
@@ -155,6 +178,11 @@ def brutal_force_pollard_rho(n: int, e: int, seed: int = 2) -> int:
         return d
 
 def brutal_force_sqrt(n: int, e: int) -> int:
+    """
+    Realiza a quebra da chave publica via força bruta.
+    n - n da chave pública
+    e - e da chave pública
+    """
     # Realiza a quebra com base na raiz quadrada de n
     p = 1
     q = 1
