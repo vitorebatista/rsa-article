@@ -3,7 +3,7 @@ from rsa import Rsa
 from files import read_public_key, read_message, save_message, save_public_key
 
 
-def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type: str ="prime", method: str ="brute") -> tuple:
+def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str ="prime", method: str ="brute", timesAverage: int = 10) -> tuple:
     '''
     Função para executar 15x os métodos de criptografia para gerar uma média de tempo
     de execução e apresentar um gráfico comparativo.
@@ -12,20 +12,20 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type: str ="prime
     bits_limit - Número de bits considerado no processo de criptografia. Default: 24
     type - Método de análise de número primo (prime, miller ou fermat). Default: prime
     method - Método de força bruta (brute ou pollard). Default: brute
+    timesAverage - Quantidade de vezes em que deve ser executado para gerar a média de tempo
     '''
     timesEncrypt = []
     timesBreak = []
-    bitSizes = []
 
-    average = 15
     for i in range(2, bits_limit // 2 + 1):
         #comeca com 4 bits pq é o mínimo para phi suportar abela ASCII
         bit = i * 2 #tamanho máximo (multiplica n bits por n bits)
         timeEncrypt = []
         timeBrutal = []
         
-        for m in range(0, average):
-            # print(f"Executando com {bit} bits - Tentativa {m}")
+        average = timesAverage
+        for m in range(0, timesAverage):
+            print(f"Executando com {bit} bits type={type} method={method} - Tentativa {m}")
             start = time.time()
 
             rsa = Rsa()
@@ -56,16 +56,18 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit=24, type: str ="prime
             timeBrutal.append(time.time() - start)
 
         print(f"{bit} bits - broken_message", broken_message)
-        # Ordena a lista e remove o primeiro menor item e o último com o maior número
-        timeEncrypt.sort()
-        del timeEncrypt[0]
-        del timeEncrypt[-1]
+        if(timesAverage > 2):
+            average = (timesAverage - 2)
+            # Ordena a lista e remove o primeiro menor item e o último com o maior número
+            timeEncrypt.sort()
+            del timeEncrypt[0]
+            del timeEncrypt[-1]
 
-        timeBrutal.sort()
-        del timeBrutal[0]
-        del timeBrutal[-1]
-        timesEncrypt.append(sum(timeEncrypt) / (average - 2))
-        timesBreak.append(sum(timeBrutal) / (average - 2))
+            timeBrutal.sort()
+            del timeBrutal[0]
+            del timeBrutal[-1]
+        timesEncrypt.append(sum(timeEncrypt) / average)
+        timesBreak.append(sum(timeBrutal) / average)
 
     return (timesEncrypt, timesBreak)
 

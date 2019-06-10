@@ -21,38 +21,45 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 from rsa_benchmark import rsa_benchmark
 from graph import plot
 
-bits_limit = 24
+def call_pollard(message, bits_limit):
+    timesAverage = 1
+    primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="pollard", timesAverage=timesAverage)
+    fermatEncrypt, fermatBreak = rsa_benchmark(message, bits_limit, type="fermat", method="pollard", timesAverage=timesAverage)
+    millerEncrypt, millerBreak = rsa_benchmark(message, bits_limit, type="miller", method="pollard", timesAverage=timesAverage)
+    plotBreak = {
+        "prime": primeBreak,
+        "fermat": fermatBreak,
+        "miller": millerBreak,
+    }
+    plotEncrypt = {
+        "prime": primeEncrypt,
+        "fermat": fermatEncrypt,
+        "miller": millerEncrypt,
+    }
+
+    plot(valuesY=plotBreak, title="Pollard Rho", bits=bits_limit)
+    # plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
+
+def call_brute(message, bits_limit):
+    primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="brute")
+    fermatEncrypt, fermatBreak = rsa_benchmark(message, bits_limit, type="fermat", method="brute")
+    millerEncrypt, millerBreak = rsa_benchmark(message, bits_limit, type="miller", method="brute")
+    plotBreak = {
+        "prime": primeBreak,
+        "fermat": fermatBreak,
+        "miller": millerBreak,
+    }
+    plotEncrypt = {
+        "prime": primeEncrypt,
+        "fermat": fermatEncrypt,
+        "miller": millerEncrypt,
+    }
+
+    plot(valuesY=plotBreak, title="Brute Force", bits=bits_limit)
+    # plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
+
+
+bits_limit = 32
 message = "Projeto e Analise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="pollard")
-fermatEncrypt, fermatBreak = rsa_benchmark(message, bits_limit, type="fermat", method="pollard")
-millerEncrypt, millerBreak = rsa_benchmark(message, bits_limit, type="miller", method="pollard")
-plotBreak = {
-    "prime": primeBreak,
-    "fermat": fermatBreak,
-    "miller": millerBreak,
-}
-plotEncrypt = {
-    "prime": primeEncrypt,
-    "fermat": fermatEncrypt,
-    "miller": millerEncrypt,
-}
-
-plot(valuesY=plotBreak, title="Pollard Rho", bits=bits_limit)
-# plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
-
-primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="brute")
-fermatEncrypt, fermatBreak = rsa_benchmark(message, bits_limit, type="fermat", method="brute")
-millerEncrypt, millerBreak = rsa_benchmark(message, bits_limit, type="miller", method="brute")
-plotBreak = {
-    "prime": primeBreak,
-    "fermat": fermatBreak,
-    "miller": millerBreak,
-}
-plotEncrypt = {
-    "prime": primeEncrypt,
-    "fermat": fermatEncrypt,
-    "miller": millerEncrypt,
-}
-
-plot(valuesY=plotBreak, title="Brute Force", bits=bits_limit)
-# plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
+call_pollard(message, bits_limit)
+# call_brute(message, bits_limit)
