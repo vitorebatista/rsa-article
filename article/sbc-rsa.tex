@@ -1,0 +1,59 @@
+% Dúvidas do formato Latex?
+% http://www.docs.is.ed.ac.uk/skills/documents/3722/3722-2014.pdf
+
+% Sugestões de leitura
+% https://seer.imed.edu.br/index.php/revistasi/article/view/1639/1296
+
+\documentclass[12pt]{article}
+\usepackage{sbc-rsa}
+\usepackage{graphicx,url}
+\usepackage[brazil]{babel}   
+%\usepackage[latin1]{inputenc}  
+\usepackage[utf8]{inputenc}  
+% UTF-8 encoding is recommended by ShareLaTex
+
+\sloppy
+
+\input{sections/titulo.tex}
+
+\begin{document} 
+\maketitle
+\input{sections/resumo.tex}
+
+
+\section{Introdução}
+
+\input{sections/intro.tex}
+
+\section{Criptografia} \label{sec:firstpage}
+
+\input{sections/criptografia.tex}
+
+\section{Implementação}
+
+\input{sections/implementacao.tex}
+
+\subsection{Teste de Primalidade}
+
+\input{sections/primalidade.tex}
+
+\subsection{Algoritmo de Euclides}
+
+\input{sections/euclides.tex}
+
+\subsection{Criptografia}
+
+\input{sections/cripto-algoritmo.tex}
+
+\subsection{Força bruta}
+
+\input{sections/forca-bruta.tex}
+
+\section{Conclusão}
+
+\input{sections/conclusao.tex}
+
+\bibliographystyle{sbc}
+\bibliography{sbc-rsa}
+
+\end{document}

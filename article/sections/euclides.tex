@@ -1,0 +1,3 @@
+Para garantir a escolha de um número $e$ primo relativo de $\phi(n)$, utilizado na chave pública, assim como para se encontrar o número $d$, inverso multiplicativo de $e$ no módulo $\phi(n)$, utilizou-se do algoritmo de Euclides, que realiza sucessivas divisões com o resto que encontram o máximo divisor comum.
+
+O algoritmo \texttt{gcd} realiza o cálculo do máximo divisor comum e tem complexidade de tempo $O(\log{}n)$, sendo $n$ o maior número de entrada. Por sua vez, o algoritmo \texttt{xgcd} realiza as mesmas divisões sucessivas de forma recursiva, retornando também o inverso multiplicativo dos valores de entrada $a$ e $b$ de forma a atender a expressão linear $ax+by=mdc(a,b)$. Sua complexidade de tempo é representada também por $O(\log{}n)$.

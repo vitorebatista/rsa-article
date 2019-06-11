@@ -1,0 +1,13 @@
+Seguindo a estrutura descrita anteriormente, o primeiro passo consiste na definição de dois números primos aleatórios $p$ e $q$, sendo necessário realizar um teste de primalidade para garantir o atendimento dessa condição. A primalidade de um número se conceitua como um número inteiro positivo que tenha apenas dois divisores exatos, 1 e ele próprio.
+
+Uma forma de garantir o teste de primalidade se dá pela fatoração do número, o que por meio de força bruta indica a realização de sucessivos testes até que se encontre uma divisão exata. Esse teste, entretanto se torna muito lento quando se trata de inteiros grandes. Para essa aplicação foram considerados dois diferentes métodos para verificação de primalidade: Fermat e Miller-Rabin. Nos dois casos não se obtém com exatidão se um número é ou não primo, porém devido a baixa probabilidade de erro e ganho de performance pode-se dizer conceitualmente que o número seria primo.
+
+\textbf{Fermat:} o teorema de Fermat descreve que se um número $p$ é primo e $a$ é um inteiro tal que 1 $\leq$ a $\leq$ (p-1), então $\ a^{(p-1)} \equiv 1 (mod p)$. Existem alguns números, entrentanto, para o qual o teorema não se aplica, mas a garantia da primalidade se sustenta no fato de que o teste é realizado em rodadas, e que quanto mais rodadas se estabeleça, maior a probabilidade de $n$ ser primo.
+
+A implementação de \texttt{is\underline{ }prime\underline{ }fermat} 
+tem complexidade $O(k\log{}n)$, sendo $k$ o número de rodadas e $n$ o valor de entrada, visto a complexidade da função $pow$ para exponenciação.
+
+\textbf{Miller-Rabin:} entendido como um dos testes mais eficientes da atualidade, também se baseia na operação de exponenciação modular. 
+
+
+Cormen (2009, p. 706) menciona que a complexidade do algoritmo Miller-Rabin, com $n$ sendo um número de $\beta$ bits, exige $O(s\beta)$ operações aritméticas e $O(s\beta^{3})$ operações de bits, pois não exige assintoticamente mais trabalho que $s$ operações modulares. Sua complexidade pode ser definida como $O(k\log{}n)$, sendo $k$ o número de rodadas e $n$ o valor de entrada.
