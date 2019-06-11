@@ -5,11 +5,12 @@ References:
     https://github.com/jacksjm/rsa-python/blob/master/brutalForce.py
     https://github.com/sybrenstuvel/python-rsa/blob/master/rsa/prime.py
     https://github.com/MatthewCLind/Crypto_Practice/blob/master/RSA_keygen.py
-
     https://www.lambda3.com.br/2012/12/entendendo-de-verdade-a-criptografia-rsa-parte-ii/
-
     Euclides:
     http://nuitshell.blogspot.com/2014/07/algoritmo-estendido-de-euclides.html
+
+    http://bdm.unb.br/bitstream/10483/7717/1/2013_BrunoCesarDiasRibeiro.pdf
+    https://discuss.codechef.com/t/built-in-power-function-complexity/8901/2
 """
 import random
 import math
@@ -23,7 +24,6 @@ from generic import (
     brutal_force_pollard_rho,
 )
 
-
 class Rsa:
     def __init__(self):
         self.bits = 4
@@ -32,19 +32,31 @@ class Rsa:
         self.p = 0  # primeiro numero primo
         self.q = 0  # segundo numero primo
         self.n = 0  # representa o tamanho do conjunto (p*q)
-        self.e = 0  # primo relativo de phi cujo gdc(e,phi) = 1
+        self.e = 0  # primo relativo de phi cujo gdc(e,phi) = 1, chave publica
+        self.d = 0  # inverso multiplicativo de e, chave privada
         self.phi = 0  # totiente
 
         self.publicKey = []  # chave publica
         self.privateKey = []  # chave privada
 
     def set_bits(self, bits) -> None:
+        """
+        Configura o número de bits com que a classe vai trabalhar
+        """
         self.bits = bits
 
     def set_prime_method(self, primeMethod="prime") -> None:
+        """
+        Define o método para teste de primalidade:
+        miller-rabin, fermat, ou prime (brutal force)
+        """
         self.primeMethod = primeMethod
     
     def set_force_brute_method(self, forceBruteMethod) -> None:
+        """
+        Define o método para quebra de chave:
+        pollard, brute
+        """
         self.forceBruteMethod = forceBruteMethod
 
     def is_prime(self, n: int) -> bool:
@@ -77,20 +89,19 @@ class Rsa:
 
         # enquanto não for primo, soma dois e tenta novamente
         while not self.is_prime(number):
-            # print("number", number, limit)
             number += 2
             if limit > 0 & number > limit:
                 number = random.randint(2 ** (self.bits - 1), limit - 1)
 
         # garante que p e q sejam números diferentes
         if ignore == number:
-            # print("p é igual, tentando de novo")
             number = self.generate_prime(ignore=ignore)
 
         return number
 
     def generate_keypair(self, p: int, q: int) -> None:
         """
+        Recebe p e q e realiza as operacoes para gerar as chaves criptograficas.
         p - número primo
         q - outro número primo
         """
@@ -99,18 +110,17 @@ class Rsa:
         elif p == q:
             raise ValueError("p e q não podem ser iguais para gerar a chave.")
 
-        # 2. calcule n pela equacao n = p*q
+        # 2. calcula n pela equacao n = p*q
         n = p * q
 
-        # 3. selecione um inteiro ímpar pequeno 'e' tal que ele seja primo em relacao
+        # 3. seleciona um inteiro ímpar pequeno 'e' tal que ele seja primo em relacao
         # a phi(n) que, pela equacao é igual a (p-1)*(q-1)
         phi = (p - 1) * (q - 1)
         # https://crypto.stackexchange.com/questions/3110/impacts-of-not-using-rsa-exponent-of-65537
-        e = self.generate_prime(limit=phi)  # Deveria ser 65537 pelo padrão
+        e = self.generate_prime(limit=phi)  # Poderia ser 65537 por padrão
 
         # Acha um inteiro "e" em que "e" e "phi" são coprimos
         while gcd(e, phi) != 1:
-            # print("Não é coprimo, tentando de novo. e, phi", e, phi)
             e = self.generate_prime(limit=phi)
 
         self.p, self.q, self.e, self.phi, self.n = p, q, e, phi, n
@@ -123,10 +133,11 @@ class Rsa:
     @staticmethod
     def encrypt(pk: list, message: str) -> list:
         """
-        pk - private key
-        message - plain text to cipher
+        Criptografa uma string a partir de uma chave publica RSA, utilizando
+        por base uma conversao para a tabela ASCII
+        pk - chave publica
+        message - texto para criptografar
         """
-
         crypted_message = []
 
         for c in message:
@@ -137,7 +148,12 @@ class Rsa:
         return crypted_message
 
     def decrypt(self, message: list) -> str:
-
+        """
+        Descriptografa uma mensagem utilizando a chave privada RSA, tendo
+        por base uma conversao da tabela ASCII
+        pk - chave privada
+        message - texto para descriptografar
+        """
         decrypted_message = ""
 
         for c in message:
@@ -148,7 +164,11 @@ class Rsa:
         return decrypted_message
 
     def brutalForce(self, coded_message: str, pk: list) -> str:
-
+        """
+        Realiza a quebra da chave publica
+        coded_message - mensagem criptografada
+        pk - chave publica
+        """
         decrypted_message = ""
         e = pk[0]
         n = pk[1]

@@ -4,8 +4,9 @@ from files import read_public_key, read_message, save_message, save_public_key
 
 def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str ="prime", method: str ="brute", timesAverage: int = 10) -> tuple:
     '''
-    Função para executar 15x os métodos de criptografia para gerar uma média de tempo
-    de execução e apresentar um gráfico comparativo.
+    Função para executar timesAverage vezes os métodos de criptografia para gerar uma média de tempo
+    de execução e apresentar um gráfico comparativo. O resultado é salvo num arquivo que
+    tem nome no formato <bits>_<primemethod>_<decryptmethod>.
 
     message - String com a mensagem a ser criptografada. Default: "Hello World!"
     bits_limit - Número de bits considerado no processo de criptografia. Default: 24
@@ -19,14 +20,15 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
     breakFileName = open(breakFileName, "w+")
     encryptFileName = f"./files/{bits_limit}_{type}_encrypt.time"
     encryptFileName = open(encryptFileName, "w+")
+
     for i in range(2, bits_limit // 2 + 1):
         #comeca com 4 bits pq é o mínimo para phi suportar abela ASCII
-        bit = i * 2 #tamanho máximo (multiplica n bits por n bits)
+        bit = i * 2
         timeEncrypt = []
         timeBreak = []
         average = timesAverage
         for m in range(0, timesAverage):
-            print(f"Executando com {bit} bits type={type} method={method} - Tentativa {m}")
+            print(f"Executando com {bit} bits type={type} method={method} - Execucao {m}")
             
             rsa = Rsa()
             rsa.set_bits(bit)
@@ -73,6 +75,7 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
         timesBreak.append(sum(timeBreak) / average)
         breakFileName.write(f"{bit}\t{sum(timeBreak) / average}\n")
         encryptFileName.write(f"{bit}\t{sum(timeEncrypt) / average}\n")
+
     breakFileName.close()
     encryptFileName.close()
 
