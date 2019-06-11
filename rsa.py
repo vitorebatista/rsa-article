@@ -8,6 +8,9 @@ References:
     https://www.lambda3.com.br/2012/12/entendendo-de-verdade-a-criptografia-rsa-parte-ii/
     Euclides:
     http://nuitshell.blogspot.com/2014/07/algoritmo-estendido-de-euclides.html
+
+    http://bdm.unb.br/bitstream/10483/7717/1/2013_BrunoCesarDiasRibeiro.pdf
+    https://discuss.codechef.com/t/built-in-power-function-complexity/8901/2
 """
 import random
 import math
