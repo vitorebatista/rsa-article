@@ -21,7 +21,7 @@ $ pipenv shell
 $ python test_simple.py
 ```
 
-Para realizar a análise de primalidade com as fun;óes `is_prime`, `is_prime_fermat` e `is_prime_miller`:
+Para realizar a análise de primalidade com as funções `is_prime`, `is_prime_fermat` e `is_prime_miller`:
 ```shell
 $ pipenv shell
 $ python test_prime.py
