@@ -2,7 +2,7 @@ import time
 from rsa import Rsa
 from files import read_public_key, read_message, save_message, save_public_key
 
-def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str ="prime", method: str ="brute", timesAverage: int = 10) -> tuple:
+def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str ="prime", method: str ="", timesAverage: int = 10) -> tuple:
     '''
     Função para executar timesAverage vezes os métodos de criptografia para gerar uma média de tempo
     de execução e apresentar um gráfico comparativo. O resultado é salvo num arquivo que
@@ -20,7 +20,7 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
     breakFileName = open(breakFileName, "w+")
     encryptFileName = f"./files/{bits_limit}_{type}_encrypt.time"
     encryptFileName = open(encryptFileName, "w+")
-
+    broken_message = ""
     for i in range(2, bits_limit // 2 + 1):
         #comeca com 4 bits pq é o mínimo para phi suportar abela ASCII
         bit = i * 2
@@ -48,16 +48,17 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
             
             # Salva a mensagem em um arquivo .msg
             save_message(bit, coded_message)
+            if(method):
+                # Faz a leitura do arquivo de chave .pem
+                publicKey = read_public_key(bit)
 
-            # Faz a leitura do arquivo de chave .pem
-            publicKey = read_public_key(bit)
+                # Faz a leitura do arquivo da mensagem .msg
+                coded_message = read_message(bit)
 
-            # Faz a leitura do arquivo da mensagem .msg
-            coded_message = read_message(bit)
-
-            start = time.time()
-            broken_message = rsa.brutalForce(coded_message, publicKey)
-            timeBreak.append(time.time() - start)
+                start = time.time()
+            
+                broken_message = rsa.brutalForce(coded_message, publicKey)
+                timeBreak.append(time.time() - start)
             print(time.time() - start)
 
         print(f"{bit} bits - broken_message", broken_message)
@@ -67,17 +68,20 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
             timeEncrypt.sort()
             del timeEncrypt[0]
             del timeEncrypt[-1]
-
-            timeBreak.sort()
-            del timeBreak[0]
-            del timeBreak[-1]
+            if(method):
+                timeBreak.sort()
+                del timeBreak[0]
+                del timeBreak[-1]
         timesEncrypt.append(sum(timeEncrypt) / average)
-        timesBreak.append(sum(timeBreak) / average)
-        breakFileName.write(f"{bit}\t{sum(timeBreak) / average}\n")
         encryptFileName.write(f"{bit}\t{sum(timeEncrypt) / average}\n")
-
-    breakFileName.close()
+        
+        if(method):
+            timesBreak.append(sum(timeBreak) / average)
+            breakFileName.write(f"{bit}\t{sum(timeBreak) / average}\n")
+        
     encryptFileName.close()
+    if(method):
+        breakFileName.close()
 
     return (timesEncrypt, timesBreak)
 

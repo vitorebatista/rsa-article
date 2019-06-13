@@ -20,6 +20,25 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 from rsa_benchmark import rsa_benchmark
 from graph import plot
 
+def call_primality(message, bits_limit):
+    """
+    Realiza o benchmark utilizando Pollard-Rho para quebra de chave publica.
+    message - mensagem a ser criptografada
+    bits_limit - número de bits limite para realizar benchmark
+    """
+    timesAverage = 10
+    # primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="pollard", timesAverage=timesAverage)
+    fermatEncrypt,[] = rsa_benchmark(message, bits_limit, type="fermat", timesAverage=timesAverage)
+    millerEncrypt,[] = rsa_benchmark(message, bits_limit, type="miller", timesAverage=timesAverage)
+    plotEncrypt = {
+        # "prime": primeEncrypt,
+        "fermat": fermatEncrypt,
+        "miller": millerEncrypt,
+    }
+
+    plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
+
+
 def call_pollard(message, bits_limit):
     """
     Realiza o benchmark utilizando Pollard-Rho para quebra de chave publica.
@@ -69,7 +88,9 @@ def call_brute(message, bits_limit):
     plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
 
 
-bits_limit = 32
+bits_limit = 512
 message = "Projeto e Analise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-call_pollard(message, bits_limit)
-call_brute(message, bits_limit)
+call_primality(message, bits_limit)
+
+# call_pollard(message, 32)
+#call_brute(message, 32)
