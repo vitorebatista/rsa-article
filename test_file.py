@@ -8,7 +8,7 @@ publicKey = read_public_key(bit)
 # Faz a leitura do arquivo da mensagem .msg
 coded_message = read_message(bit)
 rsa = Rsa()
-broken_message = rsa.brutalForce(coded_message, publicKey)
+broken_message = rsa.breakMessage(coded_message, publicKey)
 
 print("Quebra do arquivo criptografado para chave de %n bits" & bit)
 print(broken_message)

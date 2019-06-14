@@ -14,8 +14,8 @@ from generic import (
 class Rsa:
     def __init__(self):
         self.bits = 4
-        self.primeMethod = "prime"
-        self.forceBruteMethod = "brute"
+        self.encryptMethod = "fermat"
+        self.breakMethod = "brute"
         self.p = 0  # primeiro numero primo
         self.q = 0  # segundo numero primo
         self.n = 0  # representa o tamanho do conjunto (p*q)
@@ -32,19 +32,19 @@ class Rsa:
         """
         self.bits = bits
 
-    def set_prime_method(self, primeMethod="prime") -> None:
+    def encryptMethod(self, encryptMethod="prime") -> None:
         """
         Define o método para teste de primalidade:
-        miller-rabin ou fermat
+        miller ou fermat
         """
-        self.primeMethod = primeMethod
+        self.encryptMethod = encryptMethod
     
-    def set_force_brute_method(self, forceBruteMethod) -> None:
+    def breakMethod(self, breakMethod) -> None:
         """
         Define o método para quebra de chave:
         pollard, brute
         """
-        self.forceBruteMethod = forceBruteMethod
+        self.breakMethod = breakMethod
 
     def is_prime(self, n: int) -> bool:
         """
@@ -53,7 +53,7 @@ class Rsa:
         """
         return (
             is_prime_miller(n)
-            if self.primeMethod == "miller"
+            if self.encryptMethod == "miller"
             else is_prime_fermat(n)
         )
 
@@ -147,7 +147,7 @@ class Rsa:
 
         return decrypted_message
 
-    def brutalForce(self, coded_message: str, pk: list) -> str:
+    def breakMessage(self, coded_message: str, pk: list) -> str:
         """
         Realiza a quebra da chave publica
         coded_message - mensagem criptografada
@@ -157,7 +157,7 @@ class Rsa:
         e = pk[0]
         n = pk[1]
 
-        if self.forceBruteMethod == "pollard":
+        if self.breakMethod == "pollard":
             d = pollard_rho(n, e)
         else:
             d = brutal_force(n, e)

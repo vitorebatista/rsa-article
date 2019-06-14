@@ -6,7 +6,7 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
     '''
     Função para executar timesAverage vezes os métodos de criptografia para gerar uma média de tempo
     de execução e apresentar um gráfico comparativo. O resultado é salvo num arquivo que
-    tem nome no formato <bits>_<primemethod>_<decryptmethod>.
+    tem nome no formato <bits>_<encryptMethod>_<decryptmethod>.
 
     message - String com a mensagem a ser criptografada. Default: "Hello World!"
     bits_limit - Número de bits considerado no processo de criptografia. Default: 24
@@ -32,8 +32,8 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
             
             rsa = Rsa()
             rsa.set_bits(bit)
-            rsa.set_prime_method(type)
-            rsa.set_force_brute_method(method)
+            rsa.encryptMethod(type)
+            rsa.breakMethod(method)
 
             start = time.time()
             p = rsa.generate_prime()
@@ -57,7 +57,7 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
 
                 start = time.time()
             
-                broken_message = rsa.brutalForce(coded_message, publicKey)
+                broken_message = rsa.breakMessage(coded_message, publicKey)
                 timeBreak.append(time.time() - start)
             print(time.time() - start)
 
