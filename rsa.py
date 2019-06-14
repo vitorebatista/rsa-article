@@ -1,4 +1,3 @@
-
 import random
 import math
 from generic import (
@@ -32,14 +31,14 @@ class Rsa:
         """
         self.bits = bits
 
-    def encryptMethod(self, encryptMethod="prime") -> None:
+    def set_EncryptMethod(self, encryptMethod="fermat") -> None:
         """
         Define o método para teste de primalidade:
         miller ou fermat
         """
         self.encryptMethod = encryptMethod
     
-    def breakMethod(self, breakMethod) -> None:
+    def set_BreakMethod(self, breakMethod) -> None:
         """
         Define o método para quebra de chave:
         pollard, brute

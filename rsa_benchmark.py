@@ -32,8 +32,8 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
             
             rsa = Rsa()
             rsa.set_bits(bit)
-            rsa.encryptMethod(type)
-            rsa.breakMethod(method)
+            rsa.set_EncryptMethod(type)
+            rsa.set_BreakMethod(method)
 
             start = time.time()
             p = rsa.generate_prime()
