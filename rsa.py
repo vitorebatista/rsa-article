@@ -1,17 +1,4 @@
-"""
-References:
-    https://gist.github.com/AJamesPhillips/9570158
-    https://www.youtube.com/watch?v=l9okvhYxtiU
-    https://github.com/jacksjm/rsa-python/blob/master/brutalForce.py
-    https://github.com/sybrenstuvel/python-rsa/blob/master/rsa/prime.py
-    https://github.com/MatthewCLind/Crypto_Practice/blob/master/RSA_keygen.py
-    https://www.lambda3.com.br/2012/12/entendendo-de-verdade-a-criptografia-rsa-parte-ii/
-    Euclides:
-    http://nuitshell.blogspot.com/2014/07/algoritmo-estendido-de-euclides.html
 
-    http://bdm.unb.br/bitstream/10483/7717/1/2013_BrunoCesarDiasRibeiro.pdf
-    https://discuss.codechef.com/t/built-in-power-function-complexity/8901/2
-"""
 import random
 import math
 from generic import (
@@ -20,8 +7,8 @@ from generic import (
     is_prime_fermat,
     is_prime_miller,
     gcd,
-    brutal_force_sqrt,
-    brutal_force_pollard_rho,
+    brutal_force,
+    pollard_rho,
 )
 
 class Rsa:
@@ -48,7 +35,7 @@ class Rsa:
     def set_prime_method(self, primeMethod="prime") -> None:
         """
         Define o método para teste de primalidade:
-        miller-rabin, fermat, ou prime (brutal force)
+        miller-rabin ou fermat
         """
         self.primeMethod = primeMethod
     
@@ -68,15 +55,12 @@ class Rsa:
             is_prime_miller(n)
             if self.primeMethod == "miller"
             else is_prime_fermat(n)
-            if self.primeMethod == "fermat"
-            else is_prime(n)
         )
 
     def generate_prime(self, limit: int = 0, ignore: int = 0) -> int:
         # números primos são valores inteiros maiores que 1
         # divisíveis apenas por 1 e por si mesmos
 
-        # https://security.stackexchange.com/a/37910
         if limit > 0:
             # gera número aleatorio entre 2 e prime_number_limit
             number = random.randint(2 ** (self.bits - 1), limit - 1)
@@ -174,9 +158,9 @@ class Rsa:
         n = pk[1]
 
         if self.forceBruteMethod == "pollard":
-            d = brutal_force_pollard_rho(n, e)
+            d = pollard_rho(n, e)
         else:
-            d = brutal_force_sqrt(n, e)
+            d = brutal_force(n, e)
 
         for c in coded_message:
             decoded_letter = pow(c, d, n)

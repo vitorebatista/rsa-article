@@ -26,7 +26,6 @@ def is_prime_fermat(number: int, k=20) -> bool:
     Testa se um número é primo utilizando o teste de primalidade de Fermat
     number - numero a ser verificado
     """
-    # https://gist.github.com/Ayrx/5884802
     # Implementation uses the Fermat Primality Test
     if number == 2 or number == 3:
         return True
@@ -36,8 +35,6 @@ def is_prime_fermat(number: int, k=20) -> bool:
 
     for i in range(k):
         a = random.randint(1, number - 1)
-        # https://stackoverflow.com/questions/32738637/calculate-mod-using-pow-function-python
-        # https://www.khanacademy.org/computing/computer-science/cryptography/random-algorithms-probability/v/fermat-primality-test-prime-adventure-part-10
         if pow(a, number - 1, number) != 1:
             return False
     return True
@@ -135,8 +132,6 @@ def xgcd(a: int, b: int) -> list:
     return [y, x - (a // b) * y, d]
 
 
-# Find the multiplicative inverse of x (mod y)
-# see: http://en.wikipedia.org/wiki/Modular_multiplicative_inverse
 def find_inverse(a: int, b: int) -> int:
     """
     Função que utiliza do Algoritmo de Euclides Estendido para encontrar
@@ -149,11 +144,8 @@ def find_inverse(a: int, b: int) -> int:
         inv += b  # Nós queremos apenas números positivos
     return inv
 
-#https://gist.github.com/thomdixon/dd1e280681f16535fbf1
-#http://marathoncode.blogspot.com/2012/08/algoritmo-pollards-rho.html
-#http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
 
-def brutal_force_pollard_rho(n: int, e: int, seed: int = 2) -> int:
+def pollard_rho(n: int, e: int, seed: int = 2) -> int:
     """
     Algoritmo de Pollard-Rho para realizar a quebra de chave na criptografia RSA.
     n - n da chave pública
@@ -170,14 +162,14 @@ def brutal_force_pollard_rho(n: int, e: int, seed: int = 2) -> int:
         p = gcd( abs(a-b)%n, n)
 
     if p == n:
-        return brutal_force_pollard_rho(n, e, seed+1) #brutal_force_sqrt(n, e,) #
+        return pollard_rho(n, e, seed+1) #brutal_force(n, e,) #
     else:
         q = n // p
         phi = (p - 1) * (q - 1)
         d = find_inverse(e, phi)
         return d
 
-def brutal_force_sqrt(n: int, e: int) -> int:
+def brutal_force(n: int, e: int) -> int:
     """
     Realiza a quebra da chave publica via força bruta.
     n - n da chave pública
@@ -191,7 +183,6 @@ def brutal_force_sqrt(n: int, e: int) -> int:
     nControl = 3
     # dado n tenta descobrir p e q
     while nControl <= nSqrt:
-        # print("Tentativa %d do BrutalForce" % nControl)
         if (n % nControl) == 0:
             p = n // nControl
             q = nControl
