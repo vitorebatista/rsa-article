@@ -21,9 +21,9 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
     encryptFileName = f"./files/{bits_limit}_{type}_encrypt.time"
     encryptFileName = open(encryptFileName, "w+")
     broken_message = ""
-    for i in range(2, bits_limit // 2 + 1):
+    for i in range(1, bits_limit // 8 + 1):
         #comeca com 4 bits pq é o mínimo para phi suportar abela ASCII
-        bit = i * 2
+        bit = i * 8
         timeEncrypt = []
         timeBreak = []
         average = timesAverage
