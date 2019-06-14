@@ -16,9 +16,9 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
     '''
     timesEncrypt = []
     timesBreak = []
-    breakFileName = f"./files/{bits_limit}_{type}_{method}.time"
+    breakFileName = f"./files/time/{bits_limit}_{type}_{method}.time"
     breakFileName = open(breakFileName, "w+")
-    encryptFileName = f"./files/{bits_limit}_{type}_encrypt.time"
+    encryptFileName = f"./files/time/{bits_limit}_{type}_encrypt.time"
     encryptFileName = open(encryptFileName, "w+")
     broken_message = ""
     for i in range(1, bits_limit // 8 + 1):
