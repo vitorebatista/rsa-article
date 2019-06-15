@@ -17,17 +17,34 @@ $ pipenv shell
 $ python main.py
 ```
 
-Para realizar testes simples de criptografia de 512 bits:
+Para realizar testes simples de criptografia de n bits:
 ```shell
 $ pipenv shell
-$ python test_simple.py
+$ python test_encrypt.py
 ```
 
-Para realizar a análise de primalidade com as funções `is_prime`, `is_prime_fermat` e `is_prime_miller`:
+Para realizar testes simples de criptografia de n bits:
+```shell
+$ pipenv shell
+$ python test_break.py
+```
+
+Para verificar a assertividade das funções de teste de primalidade para os algoritmos `is_prime`, `is_prime_fermat` e `is_prime_miller`:
 ```shell
 $ pipenv shell
 $ python test_prime.py
 ``` 
+
+### Exemplos de resultados:
+
+Gráfico comparativo do tempo de criptografia para os métodos de Fermat e Miller-Rabin:
+<insert graph here>
+
+Gráfico do tempo de quebra de chave por meio de algoritmo de força bruta:
+<insert graph here>
+
+Gráfico do tepmo de quebra de chave por meio do algoritmo de Pollard Rho:
+<insert graph here>
 
 ### Integrantes do projeto:
 
@@ -46,12 +63,12 @@ Find multiplicative inverse of x (mod y)
 http://en.wikipedia.org/wiki/Modular_multiplicative_inverse
 
 PollardRho Algorithm examples:
-#https://gist.github.com/thomdixon/dd1e280681f16535fbf1
-#http://marathoncode.blogspot.com/2012/08/algoritmo-pollards-rho.html
-#http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
+https://gist.github.com/thomdixon/dd1e280681f16535fbf1
+http://marathoncode.blogspot.com/2012/08/algoritmo-pollards-rho.html
+http://code.activestate.com/recipes/577037-pollard-rho-prime-factorization/
 
 Matplot Spaghetti plot example:
-# https://python-graph-gallery.com/124-spaghetti-plot/
+https://python-graph-gallery.com/124-spaghetti-plot/
 
 RSA explanations:
 https://gist.github.com/AJamesPhillips/9570158

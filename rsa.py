@@ -38,7 +38,7 @@ class Rsa:
         """
         self.encryptMethod = encryptMethod
     
-    def set_BreakMethod(self, breakMethod) -> None:
+    def set_BreakMethod(self, breakMethod="brute") -> None:
         """
         Define o método para quebra de chave:
         pollard, brute

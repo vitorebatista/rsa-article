@@ -20,77 +20,51 @@ Escrever um relatório técnico de até sete páginas no formato de artigo d
 from rsa_benchmark import rsa_benchmark
 from graph import plot
 
-def call_primality(message, bits_limit):
+
+def measure_encrypt(message, bits_limit):
     """
-    Realiza o benchmark utilizando Pollard-Rho para quebra de chave publica.
+    Realiza o benchmark do processo de geração de chaves, comparando fermat e miller.
+    O resultado desse procedimento é gravado em um arquivo na pasta /time.
     message - mensagem a ser criptografada
     bits_limit - número de bits limite para realizar benchmark
     """
     timesAverage = 10
-    # primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="pollard", timesAverage=timesAverage)
-    fermatEncrypt,[] = rsa_benchmark(message, bits_limit, type="fermat", timesAverage=timesAverage)
-    millerEncrypt,[] = rsa_benchmark(message, bits_limit, type="miller", timesAverage=timesAverage)
+    fermatEncrypt,[] = rsa_benchmark(message, bits_limit, encryptMethod="fermat", timesAverage=timesAverage)
+    millerEncrypt,[] = rsa_benchmark(message, bits_limit, encryptMethod="miller", timesAverage=timesAverage)
     plotEncrypt = {
-        # "prime": primeEncrypt,
         "fermat": fermatEncrypt,
-        "miller": millerEncrypt,
+        "miller": millerEncrypt
     }
 
     plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
 
 
-def call_pollard(message, bits_limit):
+def measure_break(message, bits_limit):
     """
-    Realiza o benchmark utilizando Pollard-Rho para quebra de chave publica.
+    Realiza o benchmark do processo quebra de chaves.
+    O resultado desse procedimento é gravado em um arquivo na pasta /time.
     message - mensagem a ser criptografada
     bits_limit - número de bits limite para realizar benchmark
     """
-    timesAverage = 10
-    primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="pollard", timesAverage=timesAverage)
-    fermatEncrypt, fermatBreak = rsa_benchmark(message, bits_limit, type="fermat", method="pollard", timesAverage=timesAverage)
-    millerEncrypt, millerBreak = rsa_benchmark(message, bits_limit, type="miller", method="pollard", timesAverage=timesAverage)
+    timesAverage = 1
+
+    pollardBreak = rsa_benchmark(message, bits_limit, breakMethod="pollard", timesAverage=timesAverage)
+    pollardBreak = pollardBreak[1]
+
+    bruteBreak = rsa_benchmark(message, bits_limit, breakMethod="brute", timesAverage=timesAverage)
+    bruteBreak = bruteBreak[1]
+
     plotBreak = {
-        "prime": primeBreak,
-        "fermat": fermatBreak,
-        "miller": millerBreak,
-    }
-    plotEncrypt = {
-        "prime": primeEncrypt,
-        "fermat": fermatEncrypt,
-        "miller": millerEncrypt,
+        "pollard": pollardBreak,
+        "brute force": bruteBreak
     }
 
-    plot(valuesY=plotBreak, title="Pollard Rho", bits=bits_limit)
-    plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
+    plot(valuesY=plotBreak, title="Break Key", bits=bits_limit)
 
 
-def call_brute(message, bits_limit):
-    """
-    Realiza o benchmark utilizando Força Bruta para quebra de chave publica.
-    message - mensagem a ser criptografada
-    bits_limit - número de bits limite para realizar benchmark
-    """
-    primeEncrypt, primeBreak = rsa_benchmark(message, bits_limit, type="prime", method="brute")
-    fermatEncrypt, fermatBreak = rsa_benchmark(message, bits_limit, type="fermat", method="brute")
-    millerEncrypt, millerBreak = rsa_benchmark(message, bits_limit, type="miller", method="brute")
-    plotBreak = {
-        "prime": primeBreak,
-        "fermat": fermatBreak,
-        "miller": millerBreak,
-    }
-    plotEncrypt = {
-        "prime": primeEncrypt,
-        "fermat": fermatEncrypt,
-        "miller": millerEncrypt,
-    }
 
-    plot(valuesY=plotBreak, title="Brute Force", bits=bits_limit)
-    plot(valuesY=plotEncrypt, title="Encrypt", bits=bits_limit)
-
-
-bits_limit = 512
+bits_limit = 32
 message = "Projeto e Analise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
-call_primality(message, bits_limit)
 
-# call_pollard(message, 32)
-#call_brute(message, 32)
+#measure_encrypt(message, bits_limit)
+measure_break(message, bits_limit)

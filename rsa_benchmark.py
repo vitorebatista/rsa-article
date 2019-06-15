@@ -2,38 +2,44 @@ import time
 from rsa import Rsa
 from files import read_public_key, read_message, save_message, save_public_key
 
-def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str ="prime", method: str ="", timesAverage: int = 10) -> tuple:
+def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, encryptMethod: str ="fermat", breakMethod: str ="", timesAverage: int = 10) -> tuple:
     '''
     Função para executar timesAverage vezes os métodos de criptografia para gerar uma média de tempo
     de execução e apresentar um gráfico comparativo. O resultado é salvo num arquivo que
-    tem nome no formato <bits>_<encryptMethod>_<decryptmethod>.
+    tem nome no formato <bits>_<encryptMethod>_<breakMethod>.
 
     message - String com a mensagem a ser criptografada. Default: "Hello World!"
     bits_limit - Número de bits considerado no processo de criptografia. Default: 24
-    type - Método de análise de número primo (prime, miller ou fermat). Default: prime
-    method - Método de força bruta (brute ou pollard). Default: brute
+    encryptMethod - Método de análise de número primo (miller ou fermat). Default: fermat
+    breakMethod - Método de força bruta (brute ou pollard). Default: brute
     timesAverage - Quantidade de vezes em que deve ser executado para gerar a média de tempo
     '''
+
     timesEncrypt = []
     timesBreak = []
-    breakFileName = f"./files/time/{bits_limit}_{type}_{method}.time"
-    breakFileName = open(breakFileName, "w+")
-    encryptFileName = f"./files/time/{bits_limit}_{type}_encrypt.time"
+
+    encryptFileName = f"./files/time/{bits_limit}_{encryptMethod}_encrypt.time"
     encryptFileName = open(encryptFileName, "w+")
-    broken_message = ""
+    
+    if(breakMethod):
+        breakFileName = f"./files/time/{bits_limit}_{encryptMethod}_{breakMethod}.time"
+        breakFileName = open(breakFileName, "w+")
+        broken_message = ""
+
     for i in range(1, bits_limit // 8 + 1):
         #comeca com 4 bits pq é o mínimo para phi suportar abela ASCII
         bit = i * 8
         timeEncrypt = []
         timeBreak = []
         average = timesAverage
+        
         for m in range(0, timesAverage):
-            print(f"Executando com {bit} bits type={type} method={method} - Execucao {m}")
+            print(f"Executando com {bit} bits encryptMethod={encryptMethod} breakMethod={breakMethod} - Execucao {m}")
             
             rsa = Rsa()
             rsa.set_bits(bit)
-            rsa.set_EncryptMethod(type)
-            rsa.set_BreakMethod(method)
+            rsa.set_EncryptMethod(encryptMethod)
+            rsa.set_BreakMethod(breakMethod)
 
             start = time.time()
             p = rsa.generate_prime()
@@ -48,7 +54,9 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
             
             # Salva a mensagem em um arquivo .msg
             save_message(bit, coded_message)
-            if(method):
+
+            # faz a quebra e mede o tempo
+            if(breakMethod):
                 # Faz a leitura do arquivo de chave .pem
                 publicKey = read_public_key(bit)
 
@@ -59,28 +67,32 @@ def rsa_benchmark(message: str ="Hello World!", bits_limit: int = 24, type: str 
             
                 broken_message = rsa.breakMessage(coded_message, publicKey)
                 timeBreak.append(time.time() - start)
-            print(time.time() - start)
 
-        print(f"{bit} bits - broken_message", broken_message)
+                print(f"{bit} bits - broken_message", broken_message)
+
+        # Ordena a lista e remove o primeiro menor item e o último com o maior número
         if(timesAverage > 2):
             average = (timesAverage - 2)
-            # Ordena a lista e remove o primeiro menor item e o último com o maior número
             timeEncrypt.sort()
             del timeEncrypt[0]
             del timeEncrypt[-1]
-            if(method):
+            if(breakMethod):
                 timeBreak.sort()
                 del timeBreak[0]
                 del timeBreak[-1]
+
+        # calcula média (encrypt) das timesAverage execucoes
         timesEncrypt.append(sum(timeEncrypt) / average)
         encryptFileName.write(f"{bit}\t{sum(timeEncrypt) / average}\n")
         
-        if(method):
+        # calcula média (break) das timesAverage execucoes
+        if(breakMethod):
             timesBreak.append(sum(timeBreak) / average)
             breakFileName.write(f"{bit}\t{sum(timeBreak) / average}\n")
-        
+    
+    # Fecha arquivos abertos
     encryptFileName.close()
-    if(method):
+    if(breakMethod):
         breakFileName.close()
 
     return (timesEncrypt, timesBreak)

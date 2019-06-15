@@ -8,7 +8,7 @@ previamente salva, realiza a quebra da chave e imprime em tela
 '''
 
 #define qual arquivo deve abrir no formato "/XX_encrypt.pem" e "/XX_encrypt.msg"
-bit = 16
+bit = 64
 
 # Faz a leitura do arquivo de chave .pem
 publicKey = read_public_key(bit)
