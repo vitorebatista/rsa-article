@@ -38,11 +38,14 @@ $ python test_prime.py
 
 ### Exemplos de resultados:
 
-Gráfico comparativo do tempo de criptografia para os métodos de Fermat e Miller-Rabin:
+Gráfico comparativo do tempo de criptografia para os métodos de [Fermat](./files/time/512_fermat_encrypt.time) e [Miller-Rabin](./files/time/512_miller_encrypt.time):
 ![Gráfico comparativo de geração de chaves RSA utilizando Fermat e Miller-Rabin](./images/512_Encrypt.png)
 
-Gráfico comparativo do tempo de quebra de chave por meio de algoritmo de força bruta e Pollard Rho:
+Gráfico comparativo do tempo de quebra de chave por meio de algoritmo de [força bruta](./files/time/24_fermat_brute.time) e [Pollard Rho](./files/time/24_fermat_pollard.time) utilizando chave de *24bits*:
 ![Gráfico comparativo do tempo de quebra de chave por meio de algoritmo de força bruta e Pollard Rho](./images/24_BreakKey.png)
+
+Veja a difereça de tempo para quebra de chaves de *32bits* utilizando [força bruta](./files/time/32_fermat_brute.time), sendo que Pollar Rho houve um crescimento de [tempo muito menor](./files/time/32_fermat_pollard.time):
+![Gráfico comparativo do tempo de quebra de chave por meio de algoritmo de força bruta e Pollard Rho](./images/32_BreakKey.png)
 
 
 ### Integrantes do projeto:
