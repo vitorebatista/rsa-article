@@ -62,9 +62,12 @@ def measure_break(message, bits_limit):
     plot(valuesY=plotBreak, title="Break Key", bits=bits_limit)
 
 
-
+# Altere aqui o número de bits desejado
 bits_limit = 32
 message = "Projeto e Analise de Algoritmos (PAA) - Universidade do Estado de Santa Catarina (UDESC) 2019"
 
+# Chamada da funcão para criptografar
 #measure_encrypt(message, bits_limit)
+
+# Chamada da funcão para descriptografar
 measure_break(message, bits_limit)
